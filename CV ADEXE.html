@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Adexe Díaz Gómez – CV Interactivo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #fff;
+      --fg: #111827;
+      --muted: #6b7280;
+      --accent: #1d4ed8;
+      --card: #f8fafc;
+      --line: #e5e7eb;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--fg);
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      line-height: 1.65;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 36px;
+    }
+
+    h1 {
+      font-family: Playfair Display, serif;
+      font-weight: 700;
+      font-size: 38px;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-weight: 600;
+      margin-top: 6px;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 18px;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 999px;
+      padding: 11px 20px;
+      cursor: pointer;
+      font-weight: 700;
+      box-shadow: 0 6px 18px rgba(29, 78, 216, 0.25);
+      text-decoration: none;
+      transition: 0.3s;
+    }
+
+    .btn-primary:hover {
+      transform: scale(1.03);
+      filter: brightness(0.95);
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 22px;
+      margin-bottom: 22px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+    }
+
+    .section-title {
+      font-weight: 800;
+      font-size: 20px;
+      text-align: center;
+      margin-bottom: 14px;
+      padding-bottom: 6px;
+      border-bottom: 2px solid var(--line);
+    }
+
+    .lead {
+      font-size: 16px;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .chip {
+      background: #eef2ff;
+      color: #1e3a8a;
+      border: 1px solid #e0e7ff;
+      padding: 7px 12px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 13px;
+    }
+
+    .families {
+      display: grid;
+      gap: 16px;
+    }
+
+    @media (min-width: 860px) {
+      .families {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .family {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 14px;
+    }
+
+    .family h3 {
+      text-align: center;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    .tools {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 12px;
+    }
+
+    .tool {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--card);
+    }
+
+    .logo {
+      width: 28px;
+      height: 28px;
+      display: grid;
+      place-items: center;
+      border-radius: 8px;
+      color: #fff;
+      font-weight: 800;
+      font-size: 12px;
+      letter-spacing: 0.2px;
+    }
+
+    .b-blue { background: #4285F4; }
+    .b-runway { background: #00D563; }
+    .b-kling { background: #000; }
+    .b-midjourney { background: #000; }
+    .b-leonardo { background: #3E65FF; }
+    .b-nano { background: #111827; }
+    .b-make { background: #6F2BFF; }
+    .b-gpt { background: #10A37F; }
+    .b-freepik { background: #2BBEF2; }
+    .b-pr { background: #9999FF; }
+    .b-ae { background: #9999FF; }
+    .b-ps { background: #31A8FF; }
+    .b-cc { background: #000; }
+
+    .tool b {
+      font-size: 14px;
+    }
+
+    .xp {
+      display: grid;
+      gap: 16px;
+    }
+
+    .item .role {
+      text-align: center;
+      font-weight: 800;
+      font-size: 18px;
+    }
+
+    .item .dates {
+      text-align: center;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .item ul {
+      margin: 0 0 0 20px;
+    }
+
+    .item li {
+      margin: 6px 0;
+    }
+
+    .video-grid {
+      display: grid;
+      gap: 14px;
+    }
+
+    @media (min-width: 860px) {
+      .video-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .video {
+      aspect-ratio: 16/9;
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      overflow: hidden;
+      background: #000;
+    }
+
+    .contact {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      justify-content: center;
+      color: var(--muted);
+    }
+
+    .contact a {
+      color: var(--accent);
+      font-weight: 700;
+      text-decoration: none;
+      border-bottom: 1px solid #bfdbfe;
+    }
+
+    footer {
+      text-align: center;
+      color: var(--muted);
+      margin-top: 10px;
+    }
+
+    @media print {
+      .btn-primary, .web-only { display: none !important; }
+      .card { box-shadow: none; }
+      .container { max-width: 100%; }
+      a[href]:after { content: ""; }
+      .section-title { border-bottom-color: #ddd; }
+      .family { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1><strong>Adexe Díaz Gómez</strong></h1>
+      <div class="subtitle">Creador audiovisual · Vídeos publicitarios con IA</div>
+
+      <!-- Botón: abre el PDF en una nueva pestaña -->
+      <a class="btn-primary"
+         href="Adexe%20diaz%20Gomez.pdf"
+         target="_blank"
+         rel="noopener noreferrer">📄 Ver Curriculum PDF</a>
+    </header>
+
+    <section class="card" id="perfil">
+      <h2 class="section-title"><strong>Perfil profesional</strong></h2>
+      <p class="lead">
+        Más de <strong>10 años</strong> creando vídeos <strong>corporativos y publicitarios</strong> para empresas y marcas, 
+        combinando rodaje real con <strong>IA generativa</strong> para acelerar previsualización, arte y posproducción. 
+        En constante actualización con <strong>las últimas tecnologías</strong> audiovisuales y de automatización. 
+        Meticuloso con los detalles y con la intención del cliente, orientado a resultados y a la coherencia estética y narrativa.
+      </p>
+    </section>
+
+    <section class="card" id="especializacion">
+      <h2 class="section-title"><strong>Especialización</strong></h2>
+      <div class="chips">
+        <span class="chip">Vídeos publicitarios</span>
+        <span class="chip">Storytelling y guion</span>
+        <span class="chip">Dirección creativa</span>
+        <span class="chip">IA generativa (video & imagen)</span>
+        <span class="chip">Edición y color</span>
+        <span class="chip">Automatizaciones con IA</span>
+        <span class="chip">Branding visual</span>
+      </div>
+    </section>
+
+    <section class="card" id="herramientas">
+      <h2 class="section-title"><strong>Herramientas & Tecnologías</strong></h2>
+      <div class="families">
+        <div class="family">
+          <h3><strong>Generación de vídeo (IA)</strong></h3>
+          <div class="tools">
+            <div class="tool"><div class="logo b-blue">Veo</div><b>Veo (Google)</b></div>
+            <div class="tool"><div class="logo b-runway">R</div><b>Runway</b></div>
+            <div class="tool"><div class="logo b-kling">K</div><b>Kling</b></div>
+          </div>
+        </div>
+        <div class="family">
+          <h3><strong>Generación de imagen (IA)</strong></h3>
+          <div class="tools">
+            <div class="tool"><div class="logo b-midjourney">Mj</div><b>Midjourney</b></div>
+            <div class="tool"><div class="logo b-leonardo">L</div><b>Leonardo AI</b></div>
+            <div class="tool"><div class="logo b-nano">Nb</div><b>Nano Banana</b></div>
+          </div>
+        </div>
+        <div class="family">
+          <h3><strong>Automatización & soporte</strong></h3>
+          <div class="tools">
+            <div class="tool"><div class="logo b-make">Mk</div><b>Make</b></div>
+            <div class="tool"><div class="logo b-gpt">GPT</div><b>ChatGPT (OpenAI)</b></div>
+            <div class="tool"><div class="logo b-freepik">F</div><b>Freepik Pack</b></div>
+          </div>
+        </div>
+        <div class="family">
+          <h3><strong>Edición y postproducción</strong></h3>
+          <div class="tools">
+            <div class="tool"><div class="logo b-pr">Pr</div><b>Adobe Premiere Pro</b></div>
+            <div class="tool"><div class="logo b-ae">Ae</div><b>Adobe After Effects</b></div>
+            <div class="tool"><div class="logo b-ps">Ps</div><b>Adobe Photoshop</b></div>
+            <div class="tool"><div class="logo b-cc">Cc</div><b>CapCut Pro</b></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card" id="experiencia">
+      <h2 class="section-title"><strong>Experiencia profesional</strong></h2>
+      <div class="xp">
+        <div class="item">
+          <div class="role">Director General & Creativo — Quesería Mansueto</div>
+          <div class="dates">2022–2025 · Gran Canaria</div>
+          <ul>
+            <li>Dirección y producción de vídeos de marca y producto con estética cinematográfica.</li>
+            <li>Integración de IA en toda la cadena (ideación, guion, previsualización, edición) y automatizaciones administrativas y de comunicación.</li>
+            <li>Supervisión de branding visual y coherencia narrativa en campañas multicanal.</li>
+            <li>Coordinación de equipos creativos y proveedores, garantizando calidad y tiempos de entrega.</li>
+          </ul>
+        </div>
+
+        <div class="item">
+          <div class="role">Creador Audiovisual & Diseñador — Freelance</div>
+          <div class="dates">2020–Actualidad · Canarias / Remoto</div>
+          <ul>
+            <li>Producción integral de anuncios para redes y lanzamientos (concepto → entrega).</li>
+            <li>Desarrollo de guiones publicitarios, dirección de arte y corrección de color.</li>
+            <li>Implementación de workflows IA para acelerar versiones y propuestas creativas.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="card" id="estilo">
+      <h2 class="section-title"><strong>Estilo profesional y carácter</strong></h2>
+      <div style="text-align:center">
+        <span class="chip">Proactivo</span>
+        <span class="chip">Muy creativo</span>
+        <span class="chip">Exigente</span>
+        <span class="chip">Meticuloso con los detalles</span>
+        <span class="chip">Orientado a resultados</span>
+        <span class="chip">Dirección de equipos</span>
+      </div>
+    </section>
+
+    <section class="card web-only" id="portfolio">
+      <h2 class="section-title"><strong>Portfolio (versión web)</strong></h2>
+      <div class="video-grid">
+        <iframe class="video" src="https://www.youtube.com/embed/JkU4G3anGP0?rel=0&modestbranding=1" allowfullscreen></iframe>
+        <iframe class="video" src="https://www.youtube.com/embed/yqOTAklJG_s?rel=0&modestbranding=1" allowfullscreen></iframe>
+        <iframe class="video" src="https://www.youtube.com/embed/gHr0PvUr88s?rel=0&modestbranding=1" allowfullscreen></iframe>
+        <iframe class="video" src="https://www.youtube.com/embed/IhclnuoVRec?rel=0&modestbranding=1" allowfullscreen></iframe>
+      </div>
+      <div style="text-align:center;margin-top:12px">
+        <a class="btn-primary" href="https://www.publifilmai.com" target="_blank" rel="noopener">🎬 Ver más vídeos</a>
+      </div>
+    </section>
+
+    <section class="card" id="contacto">
+      <h2 class="section-title"><strong>Contacto</strong></h2>
+      <div class="contact">
+        <span>📍 Agüimes, Gran Canaria</span>
+        <span>📞 <a href="tel:+34659886434">+34 659 886 434</a></span>
+        <span>✉️ <a href="mailto:proyectos@publifilmai.com">proyectos@publifilmai.com</a></span>
+        <span>✉️ <a href="mailto:adexe.gomez@gmail.com">adexe.gomez@gmail.com</a></span>
+        <span>🌐 <a href="https://www.publifilmai.com" target="_blank" rel="noopener">www.publifilmai.com</a></span>
+      </div>
+    </section>
+
+    <footer>
+      <small>© <span id="y"></span> Adexe Díaz Gómez — CV Web</small>
+    </footer>
+  </div>
+
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+node_modules/
+package-lock.json
+
+# Videos (demasiado grandes para GitHub - subir via FTP)
+*.mp4
+*.mov
+*.avi
+*.webm
+
+# Binarios y scripts temporales
+yt-dlp.exe
+screenshot-webs.js
+debug-cookies.js
+
+# Sistema
+.DS_Store
+Thumbs.db
+desktop.ini

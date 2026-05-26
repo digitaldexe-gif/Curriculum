@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CV Studio — Adexe Díaz Gómez</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   APP CHROME
+   ============================================================ */
+:root {
+  --c-bg: #0d1117;
+  --c-surface: #161b22;
+  --c-surface2: #1e2430;
+  --c-border: #30363d;
+  --c-text: #e6edf3;
+  --c-muted: #8b949e;
+  --c-accent: #f0c030;
+  --c-danger: #da3633;
+  --c-success: #3fb950;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', system-ui, sans-serif; background: var(--c-bg); color: var(--c-text); min-height: 100vh; overflow-x: hidden; }
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--c-bg); }
+::-webkit-scrollbar-thumb { background: var(--c-border); border-radius: 3px; }
+
+.btn { display:inline-flex; align-items:center; gap:5px; padding:7px 14px; border-radius:6px; border:none; font-family:inherit; font-size:13px; font-weight:500; cursor:pointer; transition:all .15s; white-space:nowrap; }
+.btn-primary { background:var(--c-accent); color:#1a1a1a; }
+.btn-primary:hover { background:#d4a820; }
+.btn-ghost { background:transparent; color:var(--c-text); border:1px solid var(--c-border); }
+.btn-ghost:hover { background:var(--c-surface2); }
+.btn-danger { background:var(--c-danger); color:#fff; }
+.btn-danger:hover { opacity:.85; }
+.btn-success { background:var(--c-success); color:#fff; }
+.btn-sm { padding:5px 10px; font-size:12px; }
+.btn-icon { padding:5px 7px; }
+.input { background:var(--c-surface2); border:1px solid var(--c-border); color:var(--c-text); padding:7px 10px; border-radius:5px; font-family:inherit; font-size:13px; width:100%; }
+.input:focus { outline:none; border-color:var(--c-accent); }
+.label { display:block; font-size:10px; font-weight:700; color:var(--c-muted); text-transform:uppercase; letter-spacing:.06em; margin-bottom:4px; }
+.hidden { display:none !important; }
+
+/* ============================================================
+   DASHBOARD
+   ============================================================ */
+#view-dashboard { min-height:100vh; }
+
+.dash-header { background:var(--c-surface); border-bottom:1px solid var(--c-border); padding:14px 28px; display:flex; align-items:center; justify-content:space-between; }
+.dash-logo { font-size:17px; font-weight:800; color:var(--c-accent); letter-spacing:-.02em; }
+.dash-logo span { color:var(--c-muted); font-weight:300; font-size:15px; }
+
+.dash-body { padding:28px; max-width:1300px; margin:0 auto; }
+.dash-title { font-size:20px; font-weight:700; margin-bottom:4px; }
+.dash-subtitle { color:var(--c-muted); font-size:13px; margin-bottom:24px; }
+
+.cv-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:16px; }
+
+.cv-card { background:var(--c-surface); border:1px solid var(--c-border); border-radius:10px; overflow:hidden; cursor:pointer; transition:all .2s; position:relative; }
+.cv-card:hover { border-color:var(--c-accent); transform:translateY(-2px); box-shadow:0 8px 24px rgba(0,0,0,.4); }
+
+.cv-card-thumb { width:100%; height:148px; background:var(--c-surface2); display:flex; align-items:center; justify-content:center; overflow:hidden; position:relative; }
+.thumb-preview { width:794px; height:1123px; transform-origin:top left; position:absolute; top:0; left:0; pointer-events:none; background:white; }
+.cv-thumb-placeholder { width:100%; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; }
+.thumb-initial { font-size:44px; font-weight:900; color:var(--c-accent); opacity:.7; font-family:'Montserrat',sans-serif; }
+
+.cv-card-info { padding:10px 12px; }
+.cv-card-name { font-size:13px; font-weight:600; margin-bottom:2px; }
+.cv-card-date { font-size:10px; color:var(--c-muted); }
+
+.cv-card-actions { position:absolute; top:6px; right:6px; display:none; gap:4px; }
+.cv-card:hover .cv-card-actions { display:flex; }
+
+.cv-new-card { background:transparent; border:2px dashed var(--c-border); border-radius:10px; min-height:200px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; cursor:pointer; transition:all .2s; color:var(--c-muted); }
+.cv-new-card:hover { border-color:var(--c-accent); color:var(--c-accent); background:rgba(240,192,48,.04); }
+.cv-new-card .new-icon { font-size:28px; }
+.cv-new-card .new-label { font-size:12px; font-weight:600; }
+
+/* ============================================================
+   EDITOR VIEW
+   ============================================================ */
+#view-editor { display:none; height:100vh; flex-direction:column; }
+
+.editor-topbar { background:var(--c-surface); border-bottom:1px solid var(--c-border); padding:0 14px; height:50px; display:flex; align-items:center; gap:10px; flex-shrink:0; }
+.topbar-sep { width:1px; height:22px; background:var(--c-border); }
+.topbar-name { background:transparent; border:1px solid transparent; color:var(--c-text); font-family:inherit; font-size:14px; font-weight:600; padding:4px 8px; border-radius:4px; min-width:200px; }
+.topbar-name:hover { border-color:var(--c-border); }
+.topbar-name:focus { outline:none; background:var(--c-surface2); border-color:var(--c-accent); }
+.topbar-right { margin-left:auto; display:flex; gap:8px; align-items:center; }
+
+.editor-body { display:flex; flex:1; overflow:hidden; }
+
+/* Left panel */
+.editor-panel { width:268px; flex-shrink:0; background:var(--c-surface); border-right:1px solid var(--c-border); overflow-y:auto; display:flex; flex-direction:column; }
+.panel-sec { padding:14px; border-bottom:1px solid var(--c-border); }
+.panel-sec-title { font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:.08em; color:var(--c-muted); margin-bottom:10px; }
+.panel-row { margin-bottom:8px; }
+.panel-row:last-child { margin-bottom:0; }
+
+.color-row { display:flex; align-items:center; justify-content:space-between; margin-bottom:7px; }
+.color-row label { font-size:12px; color:var(--c-text); }
+.color-row input[type="color"] { width:34px; height:22px; border:1px solid var(--c-border); border-radius:4px; cursor:pointer; padding:1px 2px; background:var(--c-surface2); }
+
+.font-sel { background:var(--c-surface2); border:1px solid var(--c-border); color:var(--c-text); padding:6px 8px; border-radius:4px; font-family:inherit; font-size:12px; width:100%; cursor:pointer; }
+.font-sel:focus { outline:none; border-color:var(--c-accent); }
+
+.photo-drop { border:2px dashed var(--c-border); border-radius:7px; padding:14px; text-align:center; cursor:pointer; transition:all .2s; }
+.photo-drop:hover { border-color:var(--c-accent); }
+.photo-drop-icon { font-size:20px; color:var(--c-muted); margin-bottom:4px; }
+.photo-drop-text { font-size:11px; color:var(--c-muted); line-height:1.4; }
+
+.edit-hint { background:rgba(240,192,48,.08); border:1px solid rgba(240,192,48,.25); border-radius:6px; padding:9px 11px; font-size:11px; color:var(--c-accent); line-height:1.5; margin:12px 14px 0; }
+
+/* Analysis panel */
+.analysis-panel { margin:12px 14px; border-radius:8px; overflow:hidden; border:1px solid rgba(168,85,247,.3); }
+.analysis-header { background:rgba(88,28,135,.4); padding:9px 12px; font-size:11px; font-weight:700; color:#d8b4fe; display:flex; align-items:center; gap:5px; }
+.analysis-item { padding:8px 12px; border-top:1px solid rgba(255,255,255,.06); display:flex; gap:7px; align-items:flex-start; }
+.analysis-item:last-child { border-bottom:none; }
+.a-badge { border-radius:3px; padding:1px 5px; font-size:9px; font-weight:800; flex-shrink:0; margin-top:2px; }
+.a-red { background:#dc2626; color:#fff; }
+.a-orange { background:#ea580c; color:#fff; }
+.a-blue { background:#2563eb; color:#fff; }
+.analysis-text { font-size:11px; color:var(--c-muted); line-height:1.5; }
+
+/* Canvas area */
+.editor-canvas { flex:1; overflow:auto; background:#d4d8de; display:flex; align-items:flex-start; justify-content:center; padding:28px; }
+
+/* ============================================================
+   CV TEMPLATE
+   ============================================================ */
+.cv-page {
+  width: 794px;
+  min-height: 1123px;
+  background: #fff;
+  display: grid;
+  grid-template-columns: 265px 1fr;
+  font-family: var(--cv-font-body, 'Inter', sans-serif);
+  box-shadow: 0 4px 40px rgba(0,0,0,.4);
+  flex-shrink: 0;
+  position: relative;
+
+  --cv-sidebar: #1a2035;
+  --cv-accent: #F4C430;
+  --cv-header-text: #1a2035;
+  --cv-body-text: #2c3040;
+  --cv-muted: #5f6880;
+  --cv-font-body: 'Inter', sans-serif;
+  --cv-font-head: 'Montserrat', sans-serif;
+}
+
+/* --- SIDEBAR --- */
+.cvs { background:var(--cv-sidebar); color:#dde3f5; display:flex; flex-direction:column; min-height:1123px; }
+.cvs-top { padding:26px 18px 18px; display:flex; flex-direction:column; align-items:center; }
+
+.cv-photo { width:112px; height:112px; border-radius:50%; border:3px solid var(--cv-accent); overflow:hidden; position:relative; cursor:pointer; flex-shrink:0; }
+.cv-photo img { width:100%; height:100%; object-fit:cover; display:block; }
+.cv-photo-ov { position:absolute; inset:0; background:rgba(0,0,0,.55); display:none; align-items:center; justify-content:center; border-radius:50%; flex-direction:column; font-size:11px; color:#fff; gap:2px; text-align:center; }
+.cv-photo:hover .cv-photo-ov { display:flex; }
+
+.cvs-section { padding:14px 18px; }
+.cvs-section + .cvs-section { border-top:1px solid rgba(255,255,255,.07); }
+.cvs-sec-label { font-family:var(--cv-font-head); font-size:10.5px; font-weight:800; text-transform:uppercase; letter-spacing:.14em; color:var(--cv-accent); margin-bottom:12px; padding-bottom:5px; border-bottom:2px solid var(--cv-accent); display:inline-block; }
+
+.cv-edu { margin-bottom:14px; }
+.cv-edu:last-child { margin-bottom:0; }
+.cv-edu-title { font-family:var(--cv-font-head); font-size:11px; font-weight:700; color:#fff; line-height:1.3; margin-bottom:2px; }
+.cv-edu-inst { font-size:10px; font-style:italic; color:var(--cv-accent); margin-bottom:4px; opacity:.9; }
+.cv-edu-desc { font-size:9.5px; color:rgba(210,220,248,.65); line-height:1.55; }
+
+.cvs-spacer { flex:1; }
+
+.cv-contact { display:flex; align-items:flex-start; gap:7px; margin-bottom:9px; }
+.cv-contact:last-child { margin-bottom:0; }
+.cv-contact-ico { width:18px; height:18px; border-radius:3px; background:var(--cv-accent); color:var(--cv-sidebar); display:flex; align-items:center; justify-content:center; font-size:9px; font-weight:800; flex-shrink:0; }
+.cv-contact-lbl { font-size:8.5px; font-weight:700; color:var(--cv-accent); text-transform:uppercase; letter-spacing:.05em; margin-bottom:1px; }
+.cv-contact-val { font-size:10px; color:rgba(210,220,248,.85); line-height:1.35; }
+
+/* --- MAIN AREA --- */
+.cvm { background:#fff; display:flex; flex-direction:column; }
+
+.cv-header { background:var(--cv-accent); padding:26px 26px 20px; }
+.cv-name { font-family:var(--cv-font-head); font-size:28px; font-weight:900; color:var(--cv-header-text); text-transform:uppercase; letter-spacing:-.02em; line-height:1.1; }
+.cv-name-first { font-weight:300; }
+.cv-subtitle-text { font-family:var(--cv-font-head); font-size:9.5px; font-weight:600; letter-spacing:.18em; text-transform:uppercase; color:var(--cv-header-text); opacity:.65; margin-top:5px; }
+
+.cv-body { padding:20px 26px; flex:1; }
+.cv-sec { margin-bottom:18px; }
+.cv-sec:last-child { margin-bottom:0; }
+
+.cv-sec-label { font-family:var(--cv-font-head); font-size:8.5px; font-weight:800; text-transform:uppercase; letter-spacing:.16em; color:var(--cv-muted); padding-bottom:5px; border-bottom:1.5px solid #e8eaed; margin-bottom:11px; display:flex; align-items:center; gap:7px; }
+.cv-sec-label::before { content:''; width:3px; height:11px; background:var(--cv-accent); border-radius:2px; flex-shrink:0; }
+
+.cv-profile { font-size:11px; line-height:1.68; color:var(--cv-body-text); }
+.cv-profile strong { color:var(--cv-sidebar); }
+
+.cv-exp { margin-bottom:15px; padding-left:12px; position:relative; }
+.cv-exp:last-child { margin-bottom:0; }
+.cv-exp::before { content:''; position:absolute; left:0; top:5px; width:5px; height:5px; background:var(--cv-accent); border-radius:50%; }
+.cv-exp-period { font-size:9px; font-weight:700; color:var(--cv-accent); text-transform:uppercase; letter-spacing:.08em; margin-bottom:2px; }
+.cv-exp-role { font-family:var(--cv-font-head); font-size:12.5px; font-weight:800; color:var(--cv-sidebar); line-height:1.2; }
+.cv-exp-co { font-size:10px; font-style:italic; color:var(--cv-muted); margin-bottom:4px; }
+.cv-exp-desc { font-size:10px; color:var(--cv-muted); line-height:1.5; margin-bottom:5px; }
+.cv-bullets { list-style:none; padding:0; }
+.cv-bullets li { font-size:10px; color:var(--cv-body-text); line-height:1.5; padding-left:11px; position:relative; margin-bottom:3px; }
+.cv-bullets li::before { content:'▸'; position:absolute; left:0; color:var(--cv-accent); font-size:8.5px; top:1px; }
+.cv-bullets li strong { color:var(--cv-sidebar); }
+
+.cv-tech-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.cv-tech-cat { background:#f7f8fa; border-radius:5px; padding:9px 10px; }
+.cv-tech-cat-title { font-family:var(--cv-font-head); font-size:8px; font-weight:800; text-transform:uppercase; letter-spacing:.1em; color:var(--cv-muted); margin-bottom:7px; padding-bottom:4px; border-bottom:1.5px solid var(--cv-accent); }
+.cv-tags { display:flex; flex-wrap:wrap; gap:3px; }
+.cv-tag { background:#fff; border:1px solid #e0e4ea; border-radius:3px; padding:2px 6px; font-size:9px; color:var(--cv-body-text); font-weight:500; white-space:nowrap; }
+
+/* Contenteditable styling */
+[contenteditable="true"] { outline:none; border-radius:2px; transition:background .1s; cursor:text; }
+[contenteditable="true"]:hover { background:rgba(240,192,48,.1); }
+[contenteditable="true"]:focus { background:rgba(240,192,48,.15); box-shadow:0 0 0 2px rgba(240,192,48,.35); }
+
+/* ============================================================
+   MODALS
+   ============================================================ */
+.modal-bg { position:fixed; inset:0; background:rgba(0,0,0,.72); display:none; align-items:center; justify-content:center; z-index:999; }
+.modal-bg.open { display:flex; }
+.modal { background:var(--c-surface); border:1px solid var(--c-border); border-radius:10px; padding:22px; min-width:320px; box-shadow:0 16px 48px rgba(0,0,0,.5); }
+.modal-title { font-size:15px; font-weight:700; margin-bottom:14px; }
+.modal-footer { display:flex; justify-content:flex-end; gap:8px; margin-top:14px; }
+
+/* ============================================================
+   PRINT
+   ============================================================ */
+@media print {
+  * { -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }
+  body > *:not(#print-mount) { display:none !important; }
+  #print-mount { display:block !important; }
+  .cv-page { box-shadow:none !important; width:210mm !important; min-height:297mm !important; }
+  [contenteditable] { box-shadow:none !important; background:transparent !important; }
+  .cv-photo-ov { display:none !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- ====================== DASHBOARD ====================== -->
+<div id="view-dashboard">
+  <header class="dash-header">
+    <div class="dash-logo">CV<span>Studio</span></div>
+    <button class="btn btn-primary" onclick="App.newCV()">+ Nuevo CV</button>
+  </header>
+  <div class="dash-body">
+    <div class="dash-title">Mis Currículums</div>
+    <div class="dash-subtitle">Crea versiones distintas para cada tipo de puesto. Haz clic para editar.</div>
+    <div class="cv-grid" id="cv-grid"></div>
+  </div>
+</div>
+
+<!-- ====================== EDITOR ====================== -->
+<div id="view-editor">
+  <div class="editor-topbar">
+    <button class="btn btn-ghost btn-sm" onclick="App.goToDashboard()">← Volver</button>
+    <div class="topbar-sep"></div>
+    <input type="text" class="topbar-name" id="cv-title-input" placeholder="Nombre del CV..." onchange="App.updateTitle(this.value)">
+    <div class="topbar-right">
+      <button class="btn btn-ghost btn-sm" onclick="App.printCV()">🖨 PDF</button>
+      <button class="btn btn-ghost btn-sm" onclick="App.showSaveAs()">Guardar como...</button>
+      <button class="btn btn-primary btn-sm" id="save-btn" onclick="App.saveCV()">✓ Guardar</button>
+    </div>
+  </div>
+
+  <div class="editor-body">
+    <!-- Left panel -->
+    <div class="editor-panel">
+      <div class="edit-hint">💡 Haz clic en cualquier texto del CV para editarlo. Los cambios se guardan automáticamente.</div>
+
+      <div class="panel-sec" style="margin-top:12px">
+        <div class="panel-sec-title">Foto de Perfil</div>
+        <div class="photo-drop" onclick="document.getElementById('photo-input').click()">
+          <input type="file" id="photo-input" accept="image/*" style="display:none" onchange="App.uploadPhoto(event)">
+          <div class="photo-drop-icon">📷</div>
+          <div class="photo-drop-text">Clic para cambiar foto<br><span style="font-size:10px;opacity:.6">JPG, PNG — máx. 5MB</span></div>
+        </div>
+      </div>
+
+      <div class="panel-sec">
+        <div class="panel-sec-title">Colores del Tema</div>
+        <div class="color-row"><label>Barra lateral</label><input type="color" id="c-sidebar" oninput="App.setVar('--cv-sidebar',this.value,'sidebarBg')"></div>
+        <div class="color-row"><label>Color acento / cabecera</label><input type="color" id="c-accent" oninput="App.setVar('--cv-accent',this.value,'accentColor');App.setVar('--cv-header-bg',this.value,'_')"></div>
+        <div class="color-row"><label>Texto sobre acento</label><input type="color" id="c-htext" oninput="App.setVar('--cv-header-text',this.value,'headerText')"></div>
+        <div class="color-row"><label>Texto cuerpo</label><input type="color" id="c-btext" oninput="App.setVar('--cv-body-text',this.value,'bodyText')"></div>
+      </div>
+
+      <div class="panel-sec">
+        <div class="panel-sec-title">Tipografía</div>
+        <div class="panel-row">
+          <label class="label">Fuente cuerpo</label>
+          <select class="font-sel" id="f-body" onchange="App.setFont('body',this.value)">
+            <option value="'Inter',sans-serif">Inter — Moderna</option>
+            <option value="'Segoe UI',sans-serif">Segoe UI — Clásica</option>
+            <option value="Georgia,serif">Georgia — Elegante</option>
+            <option value="Arial,sans-serif">Arial</option>
+            <option value="'Times New Roman',serif">Times New Roman</option>
+          </select>
+        </div>
+        <div class="panel-row">
+          <label class="label">Fuente títulos</label>
+          <select class="font-sel" id="f-head" onchange="App.setFont('head',this.value)">
+            <option value="'Montserrat',sans-serif">Montserrat — Impactante</option>
+            <option value="'Inter',sans-serif">Inter — Limpia</option>
+            <option value="'Arial Black',sans-serif">Arial Black — Bold</option>
+            <option value="Georgia,serif">Georgia — Clásica</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="analysis-panel">
+        <div class="analysis-header">🎯 Análisis de Conversión</div>
+        <div class="analysis-item"><span class="a-badge a-red">CRÍTICO</span><div class="analysis-text">Sin métricas = CV ignorado. Añade: % aumento de tráfico, € gestionados en Ads, ROI de campañas.</div></div>
+        <div class="analysis-item"><span class="a-badge a-red">CRÍTICO</span><div class="analysis-text">Perfil muy largo. Los RRHH leen 6 segundos. Máximo 3 líneas directas.</div></div>
+        <div class="analysis-item"><span class="a-badge a-orange">MEJORA</span><div class="analysis-text">Sin LinkedIn. Es la primera verificación. Añádelo aunque sea básico.</div></div>
+        <div class="analysis-item"><span class="a-badge a-orange">MEJORA</span><div class="analysis-text">"Estudios superiores" genera dudas. Especifica la titulación.</div></div>
+        <div class="analysis-item"><span class="a-badge a-blue">TIP</span><div class="analysis-text">Adapta el subtítulo al puesto: "SEO & SEM Specialist", "Head of Digital", "Marketing Automation"...</div></div>
+        <div class="analysis-item"><span class="a-badge a-blue">TIP</span><div class="analysis-text">Crea una versión de 1 página para envíos masivos a portales de empleo.</div></div>
+      </div>
+    </div>
+
+    <!-- CV Canvas -->
+    <div class="editor-canvas">
+      <div class="cv-page" id="cv-page"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Modals -->
+<div class="modal-bg" id="modal-saveas">
+  <div class="modal">
+    <div class="modal-title">Guardar como nueva versión</div>
+    <div class="panel-row">
+      <label class="label">Nombre del CV</label>
+      <input type="text" class="input" id="saveas-input" placeholder="ej. CV — Especialista SEO, CV — Freelance...">
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost btn-sm" onclick="App.closeModal('modal-saveas')">Cancelar</button>
+      <button class="btn btn-primary btn-sm" onclick="App.saveAs()">Crear copia independiente</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="modal-confirm">
+  <div class="modal">
+    <div class="modal-title" id="confirm-title">Confirmar</div>
+    <div style="font-size:13px;color:var(--c-muted)" id="confirm-msg"></div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost btn-sm" onclick="App.closeModal('modal-confirm')">Cancelar</button>
+      <button class="btn btn-danger btn-sm" id="confirm-ok">Eliminar</button>
+    </div>
+  </div>
+</div>
+
+<div id="print-mount" style="display:none"></div>
+
+<script>
+/* ============================================================
+   DEFAULT CV DATA  (typos corregidos + contenido mejorado)
+   ============================================================ */
+const DEFAULT = {
+  theme: {
+    sidebarBg: '#1a2035',
+    accentColor: '#F4C430',
+    headerText: '#1a2035',
+    bodyText: '#2c3040',
+    fontBody: "'Inter',sans-serif",
+    fontHead: "'Montserrat',sans-serif"
+  },
+  photo: null,
+  header: {
+    firstName: 'ADEXE',
+    lastName: 'DÍAZ GÓMEZ',
+    subtitle: 'MARKETING DIGITAL · SEO/SEM · AUTOMATIZACIÓN DE NEGOCIO'
+  },
+  profile: 'Especialista en marketing digital integral con <strong>+12 años de trayectoria en PYMEs</strong>. Conecto captación de tráfico (SEO/SEM), producción audiovisual con IA y automatización de flujos de venta en un único perfil técnico y estratégico. Valor diferencial: <strong>elimino la dependencia de 3 proveedores distintos</strong> integrando cada acción de marketing directamente en los sistemas de gestión del negocio.',
+  education: [
+    { title: 'MÁSTER EN SEO PROFESIONAL & TÉCNICO', inst: 'Agencia BigSEO (+5000 Horas)', desc: 'SEO Técnico, Arquitectura Web, Linkbuilding, Migraciones complejas y Estrategias de Contenidos.' },
+    { title: 'DESARROLLO DE SOFTWARE & AUTOMATIZACIÓN', inst: 'Formación Técnica Continua', desc: 'Integración de APIs, workflows en Make/n8n y despliegue de soluciones con IA Generativa.' },
+    { title: 'PUBLICIDAD DIGITAL AVANZADA', inst: 'Experiencia Práctica & Gestión de Cuentas', desc: 'Google Ads Expert (Búsqueda, Display, Shopping) y GA4. Gestión directa de inversión publicitaria y optimización de resultados reales.' },
+    { title: 'DISEÑO GRÁFICO & MULTIMEDIA', inst: 'Especialización Técnica & Creativa', desc: 'Adobe Creative Cloud. Identidad visual y producción de vídeo profesional.' },
+    { title: 'Estudios Superiores', inst: 'Universidad — 2002-2007', desc: '' }
+  ],
+  contact: {
+    phone: '+34 659 88 64 34',
+    email: 'adexe.diaz@gmail.com',
+    web: 'digitaldexe.com',
+    linkedin: 'linkedin.com/in/adexediaz',
+    address: 'Calle César Vallejo, 65. 35260 Agüimes, Gran Canaria'
+  },
+  experience: [
+    {
+      period: '2023 – Actualidad',
+      role: 'SOPORTE DIGITAL & AUTOMATIZACIÓN DE NEGOCIO',
+      company: 'Gestión Técnica Integral',
+      desc: 'Responsable de la infraestructura digital asegurando que cada venta online se refleje automáticamente en la gestión interna.',
+      bullets: [
+        '<strong>Integración Web-ERP:</strong> Conexión vía API entre WooCommerce y ERPs (Factusol/DelSol). Pedidos y clientes creados y facturados sin intervención manual, reduciendo tiempo administrativo.',
+        '<strong>Asistentes IA Personalizados:</strong> Agentes telefónicos entrenados con LLMs (ChatGPT/Gemini) sobre base de conocimiento de empresa. Filtrado y resolución de llamadas automática.',
+        '<strong>Dashboards Dinámicos:</strong> Paneles de control con IA para visualizar el rendimiento del negocio en tiempo real.'
+      ]
+    },
+    {
+      period: '2019 – 2023',
+      role: 'ESPECIALISTA SEO/SEM & CONTENT MANAGER',
+      company: 'Estrategia de Captación & Conversión',
+      desc: 'Gestión completa del embudo de ventas: desde el anuncio en Google hasta la página de aterrizaje.',
+      bullets: [
+        '<strong>Google Ads (SEM):</strong> Planificación y optimización de campañas de Búsqueda y Shopping. Creación de Landing Pages específicas para mejorar Nivel de Calidad y conversión.',
+        '<strong>Producción Audiovisual con IA:</strong> Generación de vídeos publicitarios y creatividades de alta calidad con herramientas de IA y edición avanzada.',
+        '<strong>SEO Técnico & Local:</strong> Auditoría web, optimización WPO y gestión de Google Business Profile para captación de tráfico local.'
+      ]
+    },
+    {
+      period: '2015 – 2019',
+      role: 'DISEÑADOR WEB & GRÁFICO',
+      company: 'Desarrollo & Identidad Visual',
+      desc: 'Base técnica y creativa para proyectos digitales atractivos y funcionales.',
+      bullets: [
+        '<strong>E-commerce:</strong> Tiendas online (PrestaShop/WooCommerce) enfocadas a la venta y estructuradas para SEO.',
+        '<strong>Diseño de Creatividades:</strong> Banners y material gráfico para campañas de publicidad digital y redes sociales.',
+        '<strong>Edición de Vídeo:</strong> Montaje y postproducción de contenido corporativo y promocional.'
+      ]
+    }
+  ],
+  techStack: [
+    { category: 'MARKETING: SEO & SEM', tags: ['Google Ads (Expert)', 'SEO Técnico / On-Page', 'SEO Local / G. Business', 'Google Analytics 4', 'Semrush / Ahrefs', 'Google Merchant Center'] },
+    { category: 'AUTOMATIZACIÓN & IA', tags: ['Make (Integromat)', 'n8n Workflows', 'Integración API ERP', 'Agentes IA (LLMs)', 'Twilio (Voz IA)', 'OpenAI API / Gemini'] },
+    { category: 'WEB & DISEÑO MULTIMEDIA', tags: ['WordPress / WooCommerce', 'PrestaShop', 'Landing Pages (CRO)', 'Adobe Photoshop/Premiere', 'Vídeo IA', 'HTML5 / CSS3'] },
+    { category: 'HERRAMIENTAS IA & DEV', tags: ['ChatGPT / Claude', 'Bolt.new / Replit', 'Midjourney / Flux', 'Creación de Apps IA', 'Dashboards de Datos', 'Anti-Gravity'] }
+  ]
+};
+
+/* ============================================================
+   TEMPLATE — TRAYECTORIA COMPLETA
+   ============================================================ */
+const TRAYECTORIA = {
+  theme: {
+    sidebarBg: '#1a2035', accentColor: '#F4C430', headerText: '#1a2035',
+    bodyText: '#2c3040', fontBody: "'Inter',sans-serif", fontHead: "'Montserrat',sans-serif"
+  },
+  photo: null,
+  header: {
+    firstName: 'ADEXE',
+    lastName: 'DÍAZ GÓMEZ',
+    subtitle: 'DISEÑO GRÁFICO & WEB · PRODUCCIÓN AUDIOVISUAL · SEO · MARKETING DIGITAL · AUTOMATIZACIÓN IA'
+  },
+  profile: 'Profesional con <strong>más de 18 años de experiencia</strong> en diseño gráfico, desarrollo web, producción audiovisual y marketing digital, trabajando para grupos empresariales en España y América Latina (Honduras, El Salvador, Paraguay). Trayectoria versátil que cubre la comunicación digital completa: <strong>identidad visual, desarrollo web, vídeo corporativo, SEO, captación de tráfico y automatización de procesos con IA</strong>. Perfil técnico con visión de negocio adquirida en roles de dirección comercial.',
+  education: [
+    { title: 'MÁSTER EN SEO PROFESIONAL & TÉCNICO', inst: 'Agencia BigSEO (+5000 Horas)', desc: 'SEO Técnico, Arquitectura Web, Linkbuilding, Migraciones complejas y Estrategias de Contenidos.' },
+    { title: 'AUTOMATIZACIÓN & DESARROLLO CON IA', inst: 'Formación Técnica Continua', desc: 'Integración de APIs, workflows en Make/n8n, agentes LLM y despliegue de soluciones con IA Generativa.' },
+    { title: 'DISEÑO GRÁFICO & PRODUCCIÓN MULTIMEDIA', inst: 'Especialización Técnica & Autodidacta', desc: 'Adobe Creative Cloud (Photoshop, Premiere, Illustrator). Identidad corporativa, diseño publicitario y producción de vídeo profesional.' },
+    { title: 'PUBLICIDAD DIGITAL & GOOGLE ADS', inst: 'Formación Práctica & Gestión de Cuentas', desc: 'Google Ads (Búsqueda, Display, Shopping) y Google Analytics 4.' },
+    { title: 'Estudios Superiores (INEF)', inst: 'Universidad de Las Palmas de Gran Canaria — 2002-2007', desc: '' }
+  ],
+  contact: {
+    phone: '+34 659 88 64 34', email: 'adexe.diaz@gmail.com',
+    web: 'digitaldexe.com', linkedin: 'linkedin.com/in/digital-dexe',
+    address: 'Calle César Vallejo, 65. 35260 Agüimes, Gran Canaria'
+  },
+  experience: [
+    {
+      period: '2023 – Actualidad',
+      role: 'CONSULTOR DIGITAL & DESARROLLO DE SOLUCIONES CON IA',
+      company: 'DigitalDexe — Autónomo',
+      desc: 'Consultoría digital y desarrollo de soluciones prácticas con Inteligencia Artificial para PYMEs: automatización de procesos, agentes conversacionales y aplicaciones funcionales.',
+      bullets: [
+        '<strong>Automatización Web-ERP:</strong> Integración vía API entre WooCommerce y ERPs (Factusol/DelSol). Flujos automáticos de pedidos y facturación sin intervención manual.',
+        '<strong>Agentes IA Conversacionales:</strong> Implementación de asistentes telefónicos y chatbots entrenados con LLMs (GPT/Gemini/Claude) sobre base de conocimiento empresarial.',
+        '<strong>Desarrollo de aplicaciones con IA:</strong> Proyectos propios funcionales que incluyen agentes de voz, interfaces con avatares controlados por LLM y automatizaciones complejas con Make/n8n.',
+        '<strong>Diseño & Producción Digital:</strong> Identidad visual, landing pages, vídeo publicitario generado con IA y material gráfico para campañas.'
+      ]
+    },
+    {
+      period: '2021 – 2023',
+      role: 'DIRECTOR DE OPERACIONES Y COMERCIAL',
+      company: 'Empresa del Sector Alimentario — Gran Canaria',
+      desc: 'Dirección operativa y comercial de empresa local. Gestión de equipo, relación con distribuidores y supervisión de procesos productivos.',
+      bullets: [
+        '<strong>Gestión de equipo</strong> y coordinación de operaciones internas.',
+        '<strong>Estrategia comercial</strong> y relación con clientes y proveedores del sector.',
+        '<strong>Comunicación y presencia digital</strong> de la marca.'
+      ]
+    },
+    {
+      period: '2015 – 2022',
+      role: 'CONSULTOR DIGITAL & RESPONSABLE DE COMUNICACIÓN',
+      company: 'Grupo Farmacéutico Internacional — Paraguay · Centroamérica',
+      desc: 'Consultor independiente para grupo empresarial farmacéutico con presencia en Honduras, El Salvador y Paraguay. Clientes: Farmacias del Ahorro, Pharmavalue y Laboratorios Adiuvo.',
+      bullets: [
+        '<strong>Diseño gráfico y arte digital:</strong> identidad corporativa, material publicitario y comunicación de marca para campañas regionales en varios países.',
+        '<strong>Desarrollo web:</strong> creación y mantenimiento de sitios corporativos optimizados para SEO.',
+        '<strong>Producción audiovisual:</strong> vídeos corporativos, institucionales y publicitarios.',
+        '<strong>Gestión de redes sociales</strong> y comunicación digital corporativa.'
+      ]
+    },
+    {
+      period: '2007 – 2015',
+      role: 'DIRECTOR COMERCIAL & RESPONSABLE DIGITAL',
+      company: 'Farmacias del Ahorro / Pharmavalue — Honduras · Centroamérica',
+      desc: 'Trayectoria de promoción interna en cadena farmacéutica líder con presencia en Honduras, El Salvador y toda Centroamérica.',
+      bullets: [
+        '<strong>Progresión interna:</strong> Vendedor → Asistente de Dirección → Director de Sucursal → Director Comercial.',
+        '<strong>Apertura y gestión del departamento de comunicación y marketing digital</strong> de la cadena desde cero.',
+        '<strong>Estrategia comercial, diseño, vídeo corporativo</strong> e identidad de marca para toda la red centroamericana.'
+      ]
+    }
+  ],
+  techStack: [
+    { category: 'DISEÑO GRÁFICO & MULTIMEDIA', tags: ['Adobe Photoshop', 'Adobe Illustrator', 'Adobe Premiere', 'Identidad Corporativa', 'Diseño Publicitario', 'Vídeo con IA'] },
+    { category: 'DESARROLLO WEB & E-COMMERCE', tags: ['WordPress / WooCommerce', 'PrestaShop', 'Landing Pages (CRO)', 'HTML5 / CSS3', 'Diseño UX/UI', 'SEO Técnico'] },
+    { category: 'SEO, SEM & MARKETING DIGITAL', tags: ['SEO On-Page & Local', 'Google Ads (Expert)', 'Google Analytics 4', 'Google Business Profile', 'Semrush / Ahrefs', 'Email Marketing'] },
+    { category: 'AUTOMATIZACIÓN & IA', tags: ['Make (Integromat)', 'n8n Workflows', 'Agentes IA (LLMs)', 'OpenAI API / Gemini', 'Midjourney / Flux', 'Creación de Apps IA'] }
+  ]
+};
+
+/* ============================================================
+   STORAGE
+   ============================================================ */
+const Store = {
+  KEY: 'cvstudio_v1',
+  all() { try { return JSON.parse(localStorage.getItem(this.KEY) || '[]'); } catch { return []; } },
+  save(list) { localStorage.setItem(this.KEY, JSON.stringify(list)); },
+  get(id) { return this.all().find(c => c.id === id) || null; },
+  upsert(cv) { const list = this.all(); const i = list.findIndex(c => c.id === cv.id); if (i >= 0) list[i] = cv; else list.push(cv); this.save(list); },
+  del(id) { this.save(this.all().filter(c => c.id !== id)); },
+  uid() { return 'cv_' + Date.now() + '_' + Math.random().toString(36).slice(2, 7); }
+};
+
+/* ============================================================
+   APP
+   ============================================================ */
+const App = {
+  current: null,   // current CV object being edited
+
+  init() {
+    if (!Store.all().length) {
+      const cv = this._make('CV Principal');
+      Store.upsert(cv);
+    }
+    // Inyecta el CV de trayectoria completa una sola vez
+    if (!localStorage.getItem('cvs_seeded_trayectoria')) {
+      const cv2 = {
+        id: Store.uid(),
+        name: 'CV — Trayectoria Completa',
+        createdAt: Date.now() - 1000,
+        updatedAt: Date.now() - 1000,
+        ...JSON.parse(JSON.stringify(TRAYECTORIA))
+      };
+      Store.upsert(cv2);
+      localStorage.setItem('cvs_seeded_trayectoria', '1');
+    }
+    this.showDash();
+  },
+
+  _make(name) {
+    return { id: Store.uid(), name, createdAt: Date.now(), updatedAt: Date.now(), ...JSON.parse(JSON.stringify(DEFAULT)) };
+  },
+
+  /* ---- DASHBOARD ---- */
+  showDash() {
+    document.getElementById('view-dashboard').style.display = '';
+    document.getElementById('view-editor').style.display = 'none';
+    this._renderDash();
+  },
+
+  _renderDash() {
+    const grid = document.getElementById('cv-grid');
+    const list = Store.all().slice().reverse();
+    grid.innerHTML = '';
+
+    // New card
+    const nc = document.createElement('div');
+    nc.className = 'cv-new-card';
+    nc.innerHTML = '<div class="new-icon">＋</div><div class="new-label">Nuevo CV</div>';
+    nc.onclick = () => this.newCV();
+    grid.appendChild(nc);
+
+    list.forEach(cv => {
+      const el = document.createElement('div');
+      el.className = 'cv-card';
+      const initial = (cv.header?.firstName || cv.name || 'C')[0];
+      const accentColor = cv.theme?.accentColor || '#F4C430';
+      const sidebarColor = cv.theme?.sidebarBg || '#1a2035';
+      const date = new Date(cv.updatedAt).toLocaleDateString('es-ES', {day:'2-digit', month:'short', year:'numeric'});
+
+      el.innerHTML = `
+        <div class="cv-card-thumb">
+          <div class="cv-thumb-placeholder" style="background:${sidebarColor}">
+            <div class="thumb-initial" style="color:${accentColor}">${initial}</div>
+            <div style="font-size:9px;color:rgba(255,255,255,.4)">${cv.name}</div>
+          </div>
+        </div>
+        <div class="cv-card-info">
+          <div class="cv-card-name">${cv.name}</div>
+          <div class="cv-card-date">Editado: ${date}</div>
+        </div>
+        <div class="cv-card-actions">
+          <button class="btn btn-ghost btn-icon btn-sm" title="Duplicar" onclick="event.stopPropagation();App.dupCV('${cv.id}')">⧉</button>
+          <button class="btn btn-danger btn-icon btn-sm" title="Eliminar" onclick="event.stopPropagation();App.confirmDel('${cv.id}')">✕</button>
+        </div>
+      `;
+      el.addEventListener('click', () => this.openEditor(cv.id));
+      grid.appendChild(el);
+    });
+  },
+
+  newCV() {
+    const cv = this._make('Nuevo CV');
+    Store.upsert(cv);
+    this.openEditor(cv.id);
+  },
+
+  dupCV(id) {
+    const src = Store.get(id);
+    if (!src) return;
+    const cv = JSON.parse(JSON.stringify(src));
+    cv.id = Store.uid();
+    cv.name = src.name + ' (copia)';
+    cv.createdAt = cv.updatedAt = Date.now();
+    Store.upsert(cv);
+    this._renderDash();
+  },
+
+  confirmDel(id) {
+    const cv = Store.get(id);
+    document.getElementById('confirm-title').textContent = 'Eliminar CV';
+    document.getElementById('confirm-msg').textContent = `¿Eliminar "${cv?.name}"? Esta acción no se puede deshacer.`;
+    document.getElementById('confirm-ok').onclick = () => {
+      Store.del(id);
+      this.closeModal('modal-confirm');
+      this._renderDash();
+    };
+    document.getElementById('modal-confirm').classList.add('open');
+  },
+
+  /* ---- EDITOR ---- */
+  openEditor(id) {
+    const cv = Store.get(id);
+    if (!cv) return;
+    this.current = JSON.parse(JSON.stringify(cv));
+    document.getElementById('view-dashboard').style.display = 'none';
+    document.getElementById('view-editor').style.display = 'flex';
+    document.getElementById('cv-title-input').value = cv.name;
+    this._applyTheme(cv.theme);
+    this._syncPickers(cv.theme);
+    this._render(cv);
+  },
+
+  goToDashboard() {
+    this._autoSave();
+    this.showDash();
+  },
+
+  updateTitle(v) {
+    if (!this.current) return;
+    this.current.name = v;
+    this._autoSave();
+  },
+
+  /* ---- THEME ---- */
+  _applyTheme(t) {
+    const p = document.getElementById('cv-page');
+    p.style.setProperty('--cv-sidebar', t.sidebarBg);
+    p.style.setProperty('--cv-accent', t.accentColor);
+    p.style.setProperty('--cv-header-text', t.headerText);
+    p.style.setProperty('--cv-body-text', t.bodyText);
+    p.style.setProperty('--cv-font-body', t.fontBody);
+    p.style.setProperty('--cv-font-head', t.fontHead);
+    // header bg = accent
+    const header = p.querySelector('.cv-header');
+    if (header) header.style.background = t.accentColor;
+  },
+
+  _syncPickers(t) {
+    document.getElementById('c-sidebar').value = t.sidebarBg;
+    document.getElementById('c-accent').value = t.accentColor;
+    document.getElementById('c-htext').value = t.headerText;
+    document.getElementById('c-btext').value = t.bodyText;
+    document.getElementById('f-body').value = t.fontBody;
+    document.getElementById('f-head').value = t.fontHead;
+  },
+
+  setVar(prop, value, key) {
+    const p = document.getElementById('cv-page');
+    p.style.setProperty(prop, value);
+    if (prop === '--cv-accent') {
+      const header = p.querySelector('.cv-header');
+      if (header) header.style.background = value;
+    }
+    if (this.current && key && key !== '_') this.current.theme[key] = value;
+    this._autoSave();
+  },
+
+  setFont(type, value) {
+    const p = document.getElementById('cv-page');
+    if (type === 'body') {
+      p.style.setProperty('--cv-font-body', value);
+      if (this.current) this.current.theme.fontBody = value;
+    } else {
+      p.style.setProperty('--cv-font-head', value);
+      if (this.current) this.current.theme.fontHead = value;
+    }
+    this._autoSave();
+  },
+
+  uploadPhoto(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    if (file.size > 5 * 1024 * 1024) { alert('Imagen demasiado grande (máx. 5MB)'); return; }
+    const reader = new FileReader();
+    reader.onload = ev => {
+      const url = ev.target.result;
+      const img = document.getElementById('cv-photo-img');
+      if (img) img.src = url;
+      if (this.current) { this.current.photo = url; this._autoSave(); }
+    };
+    reader.readAsDataURL(file);
+  },
+
+  /* ---- RENDER CV ---- */
+  _render(cv) {
+    document.getElementById('cv-page').innerHTML = this._html(cv);
+    this._attachEdits();
+    this._applyTheme(cv.theme);
+  },
+
+  _html(cv) {
+    const avatar = cv.photo || this._svgAvatar();
+    return `
+<!-- SIDEBAR -->
+<div class="cvs">
+  <div class="cvs-top">
+    <div class="cv-photo" onclick="document.getElementById('photo-input').click()">
+      <img id="cv-photo-img" src="${avatar}" alt="Foto">
+      <div class="cv-photo-ov">📷<span style="font-size:9px;line-height:1.3">Cambiar<br>foto</span></div>
+    </div>
+  </div>
+
+  <div class="cvs-section">
+    <div class="cvs-sec-label" contenteditable="true" data-f="educLabel">FORMACIÓN</div>
+    ${cv.education.map((e, i) => `
+      <div class="cv-edu">
+        <div class="cv-edu-title" contenteditable="true" data-edu="${i}" data-sf="title">${e.title}</div>
+        <div class="cv-edu-inst" contenteditable="true" data-edu="${i}" data-sf="inst">${e.inst}</div>
+        ${e.desc ? `<div class="cv-edu-desc" contenteditable="true" data-edu="${i}" data-sf="desc">${e.desc}</div>` : ''}
+      </div>
+    `).join('')}
+  </div>
+
+  <div class="cvs-spacer"></div>
+
+  <div class="cvs-section">
+    <div class="cvs-sec-label" style="margin-bottom:10px">CONTACTO</div>
+    <div class="cv-contact"><div class="cv-contact-ico">✆</div><div><div class="cv-contact-lbl">Teléfono</div><div class="cv-contact-val" contenteditable="true" data-c="phone">${cv.contact.phone}</div></div></div>
+    <div class="cv-contact"><div class="cv-contact-ico">@</div><div><div class="cv-contact-lbl">Email</div><div class="cv-contact-val" contenteditable="true" data-c="email">${cv.contact.email}</div></div></div>
+    <div class="cv-contact"><div class="cv-contact-ico">🌐</div><div><div class="cv-contact-lbl">Web</div><div class="cv-contact-val" contenteditable="true" data-c="web">${cv.contact.web}</div></div></div>
+    <div class="cv-contact"><div class="cv-contact-ico" style="font-size:8px;font-weight:800">in</div><div><div class="cv-contact-lbl">LinkedIn</div><div class="cv-contact-val" contenteditable="true" data-c="linkedin">${cv.contact.linkedin}</div></div></div>
+    <div class="cv-contact"><div class="cv-contact-ico">📍</div><div><div class="cv-contact-lbl">Dirección</div><div class="cv-contact-val" contenteditable="true" data-c="address">${cv.contact.address}</div></div></div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="cvm">
+  <div class="cv-header">
+    <div class="cv-name">
+      <span class="cv-name-first" contenteditable="true" data-f="firstName">${cv.header.firstName}</span>&nbsp;<span contenteditable="true" data-f="lastName">${cv.header.lastName}</span>
+    </div>
+    <div class="cv-subtitle-text" contenteditable="true" data-f="subtitle">${cv.header.subtitle}</div>
+  </div>
+
+  <div class="cv-body">
+    <!-- Profile -->
+    <div class="cv-sec">
+      <div class="cv-sec-label" contenteditable="true" data-f="profileLabel">PERFIL PROFESIONAL</div>
+      <div class="cv-profile" contenteditable="true" data-f="profile">${cv.profile}</div>
+    </div>
+
+    <!-- Experience -->
+    <div class="cv-sec">
+      <div class="cv-sec-label" contenteditable="true" data-f="expLabel">EXPERIENCIA & PROYECTOS CLAVE</div>
+      ${cv.experience.map((ex, i) => `
+        <div class="cv-exp">
+          <div class="cv-exp-period" contenteditable="true" data-ex="${i}" data-sf="period">${ex.period}</div>
+          <div class="cv-exp-role" contenteditable="true" data-ex="${i}" data-sf="role">${ex.role}</div>
+          <div class="cv-exp-co" contenteditable="true" data-ex="${i}" data-sf="company">${ex.company}</div>
+          <div class="cv-exp-desc" contenteditable="true" data-ex="${i}" data-sf="desc">${ex.desc}</div>
+          <ul class="cv-bullets">
+            ${ex.bullets.map((b, bi) => `<li contenteditable="true" data-ex="${i}" data-b="${bi}">${b}</li>`).join('')}
+          </ul>
+        </div>
+      `).join('')}
+    </div>
+
+    <!-- Tech Stack -->
+    <div class="cv-sec">
+      <div class="cv-sec-label" contenteditable="true" data-f="techLabel">STACK TECNOLÓGICO & HERRAMIENTAS</div>
+      <div class="cv-tech-grid">
+        ${cv.techStack.map((cat, ci) => `
+          <div class="cv-tech-cat">
+            <div class="cv-tech-cat-title" contenteditable="true" data-tc="${ci}" data-sf="category">${cat.category}</div>
+            <div class="cv-tags">
+              ${cat.tags.map((t, ti) => `<span class="cv-tag" contenteditable="true" data-tc="${ci}" data-ti="${ti}">${t}</span>`).join('')}
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+
+  </div>
+</div>`;
+  },
+
+  _svgAvatar() {
+    const s = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#2a3555"/><circle cx="50" cy="36" r="19" fill="#4a5580"/><ellipse cx="50" cy="92" rx="34" ry="26" fill="#4a5580"/></svg>`;
+    return 'data:image/svg+xml;base64,' + btoa(s);
+  },
+
+  /* ---- EDIT SYNC ---- */
+  _attachEdits() {
+    document.querySelectorAll('#cv-page [contenteditable="true"]').forEach(el => {
+      el.addEventListener('blur', () => this._sync(el));
+      // Prevent Enter on single-line fields
+      const noEnter = ['firstName','lastName','subtitle','period','role','company','educLabel','expLabel','techLabel','profileLabel'];
+      if (el.dataset.f && noEnter.includes(el.dataset.f)) {
+        el.addEventListener('keydown', e => { if (e.key === 'Enter') e.preventDefault(); });
+      }
+      if (el.dataset.ex && el.dataset.sf && ['period','role','company'].includes(el.dataset.sf)) {
+        el.addEventListener('keydown', e => { if (e.key === 'Enter') e.preventDefault(); });
+      }
+    });
+  },
+
+  _sync(el) {
+    const cv = this.current;
+    if (!cv) return;
+    const txt = el.innerText.trim();
+    const html = el.innerHTML;
+
+    if (el.dataset.f) {
+      const f = el.dataset.f;
+      if (f === 'firstName') cv.header.firstName = txt;
+      else if (f === 'lastName') cv.header.lastName = txt;
+      else if (f === 'subtitle') cv.header.subtitle = txt;
+      else if (f === 'profile') cv.profile = html;
+    }
+    if (el.dataset.c) cv.contact[el.dataset.c] = txt;
+    if (el.dataset.edu !== undefined) {
+      const i = +el.dataset.edu, sf = el.dataset.sf;
+      if (cv.education[i]) cv.education[i][sf] = txt;
+    }
+    if (el.dataset.ex !== undefined && el.dataset.b === undefined) {
+      const i = +el.dataset.ex, sf = el.dataset.sf;
+      if (cv.experience[i]) cv.experience[i][sf] = sf === 'desc' ? html : txt;
+    }
+    if (el.dataset.ex !== undefined && el.dataset.b !== undefined) {
+      const ei = +el.dataset.ex, bi = +el.dataset.b;
+      if (cv.experience[ei]?.bullets[bi] !== undefined) cv.experience[ei].bullets[bi] = html;
+    }
+    if (el.dataset.tc !== undefined && el.dataset.sf === 'category') {
+      const ci = +el.dataset.tc;
+      if (cv.techStack[ci]) cv.techStack[ci].category = txt;
+    }
+    if (el.dataset.tc !== undefined && el.dataset.ti !== undefined) {
+      const ci = +el.dataset.tc, ti = +el.dataset.ti;
+      if (cv.techStack[ci]?.tags[ti] !== undefined) cv.techStack[ci].tags[ti] = txt;
+    }
+    this._autoSave();
+  },
+
+  /* ---- SAVE ---- */
+  _autoSave() {
+    if (!this.current) return;
+    this.current.updatedAt = Date.now();
+    Store.upsert(this.current);
+  },
+
+  saveCV() {
+    this._autoSave();
+    const btn = document.getElementById('save-btn');
+    const orig = btn.textContent;
+    btn.textContent = '✓ Guardado';
+    btn.classList.replace('btn-primary', 'btn-success');
+    setTimeout(() => { btn.textContent = orig; btn.classList.replace('btn-success', 'btn-primary'); }, 1800);
+  },
+
+  showSaveAs() {
+    document.getElementById('saveas-input').value = (this.current?.name || 'CV') + ' (copia)';
+    document.getElementById('modal-saveas').classList.add('open');
+    setTimeout(() => document.getElementById('saveas-input').select(), 80);
+  },
+
+  saveAs() {
+    const name = document.getElementById('saveas-input').value.trim();
+    if (!name) return;
+    const nv = JSON.parse(JSON.stringify(this.current));
+    nv.id = Store.uid();
+    nv.name = name;
+    nv.createdAt = nv.updatedAt = Date.now();
+    Store.upsert(nv);
+    this.closeModal('modal-saveas');
+    this.openEditor(nv.id);
+  },
+
+  /* ---- PRINT / PDF ---- */
+  printCV() {
+    const cvPage = document.getElementById('cv-page');
+    const clone = cvPage.cloneNode(true);
+    // Remove contenteditable attrs from clone
+    clone.querySelectorAll('[contenteditable]').forEach(el => el.removeAttribute('contenteditable'));
+    clone.style.cssText = cvPage.getAttribute('style') || '';
+
+    const mount = document.getElementById('print-mount');
+    mount.innerHTML = '';
+    mount.appendChild(clone);
+
+    // Collect computed CSS vars from cv-page
+    const computed = getComputedStyle(cvPage);
+    const vars = ['--cv-sidebar','--cv-accent','--cv-header-text','--cv-body-text','--cv-font-body','--cv-font-head'];
+    vars.forEach(v => clone.style.setProperty(v, cvPage.style.getPropertyValue(v) || computed.getPropertyValue(v)));
+
+    window.print();
+    mount.innerHTML = '';
+  },
+
+  /* ---- UTILS ---- */
+  closeModal(id) { document.getElementById(id).classList.remove('open'); }
+};
+
+/* Close modals on background click */
+document.querySelectorAll('.modal-bg').forEach(bg => {
+  bg.addEventListener('click', e => { if (e.target === bg) bg.classList.remove('open'); });
+});
+
+document.addEventListener('DOMContentLoaded', () => App.init());
+</script>
+</body>
+</html>
