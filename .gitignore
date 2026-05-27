@@ -1,18 +1,47 @@
-node_modules/
-package-lock.json
-
-# Videos (demasiado grandes para GitHub - subir via FTP)
-*.mp4
-*.mov
-*.avi
-*.webm
-
-# Binarios y scripts temporales
-yt-dlp.exe
-screenshot-webs.js
-debug-cookies.js
+# Ignorar TODO excepto los archivos del portfolio web
 
 # Sistema
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# Node
+node_modules/
+package-lock.json
+package.json
+dist/
+
+# Videos
+*.mp4
+*.mov
+*.avi
+*.webm
+
+# Scripts
+*.js
+*.exe
+*.bat
+*.sh
+
+# PDFs y documentos
+*.pdf
+*.docx
+*.doc
+*.pptx
+
+# Imágenes de diseño / PSDs
+*.psd
+*.ai
+*.sketch
+
+# Carpetas que NO deben subirse
+Cuuriculum/
+envios/
+CV Studio/
+screenshots-proyectos/
+
+# Archivos HTML que no son el portfolio
+# (index.html en raíz es CV Studio — excluido)
+/index.html
+
+# El único archivo permitido en raíz: nada más que portfolio/
