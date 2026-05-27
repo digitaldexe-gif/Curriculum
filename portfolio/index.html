@@ -256,6 +256,26 @@ nav.scrolled .hamburger span { background:var(--text); }
 .ia-tech { background:var(--bg2); border:1px solid var(--border); border-radius:4px; padding:3px 8px; font-size:10px; font-weight:600; color:var(--muted); }
 .ia-note { margin-top:24px; padding:20px 24px; background:#fff; border:1px solid var(--border); border-radius:var(--radius); font-size:13px; color:var(--muted); line-height:1.65; }
 
+/* ── FOTO PRODUCTO SUBSECCIÓN ── */
+.subsec-label { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.12em; color:var(--orange); margin:64px 0 24px; display:flex; align-items:center; gap:12px; position:relative; z-index:1; clear:both; }
+.subsec-label::after { content:''; flex:1; height:1px; background:var(--border); }
+.foto-grid { display:grid; grid-template-columns:repeat(4, 1fr); gap:20px; }
+@media(max-width:1024px){ .foto-grid { grid-template-columns:repeat(3,1fr); } }
+@media(max-width:700px){ .foto-grid { grid-template-columns:repeat(2,1fr); } }
+.foto-grid .gallery-item { margin-bottom:0; aspect-ratio:3/4; overflow:hidden; }
+.foto-grid .gallery-item img { width:100%; height:100%; object-fit:cover; }
+
+/* ── VÍDEOS VERTICALES ── */
+.video-sec-label { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.12em; color:var(--orange); margin:48px 0 20px; display:flex; align-items:center; gap:12px; }
+.video-sec-label::after { content:''; flex:1; height:1px; background:var(--border); }
+.video-grid-v { display:grid; grid-template-columns:repeat(auto-fill, minmax(180px, 240px)); gap:20px; }
+.video-card-v { border-radius:var(--radius); overflow:hidden; background:var(--card); border:1px solid var(--border); transition:all .28s; }
+.video-card-v:hover { border-color:rgba(249,115,22,.35); transform:translateY(-4px); box-shadow:0 14px 36px rgba(0,0,0,.12); }
+.video-wrap-v { position:relative; aspect-ratio:9/16; background:#000; overflow:hidden; cursor:pointer; }
+.video-wrap-v video { width:100%; height:100%; object-fit:cover; }
+.video-wrap-v:hover .video-play-btn { background:rgba(0,0,0,.1); }
+.video-wrap-v:hover .video-play-btn svg circle { fill:var(--orange); }
+
 /* ── SOBRE MÍ SECTION ── */
 #sobre { background:var(--bg); }
 .sobre-grid { display:grid; grid-template-columns:1fr 380px; gap:64px; align-items:start; }
@@ -290,12 +310,10 @@ nav.scrolled .hamburger span { background:var(--text); }
 .contact-lbl { font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:.07em; margin-bottom:2px; }
 .contact-val { font-size:14px; font-weight:500; }
 .contact-val a { color:var(--orange); }
-.cv-box { background:linear-gradient(135deg, var(--dark), #0f1522); border-radius:18px; padding:40px 36px; text-align:center; position:relative; overflow:hidden; }
-.cv-box::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse at top right, rgba(249,115,22,.15) 0%, transparent 55%); }
-.cv-box > * { position:relative; z-index:1; }
+.cv-box { background:var(--card); border:1px solid var(--border); border-radius:18px; padding:40px 36px; text-align:center; position:relative; overflow:hidden; }
 .cv-box-icon { font-size:52px; display:block; margin-bottom:16px; }
-.cv-box h3 { font-family:var(--fh); font-size:22px; font-weight:800; color:#fff; margin-bottom:10px; }
-.cv-box p { font-size:14px; color:rgba(255,255,255,.48); margin-bottom:24px; line-height:1.65; }
+.cv-box h3 { font-family:var(--fh); font-size:22px; font-weight:800; color:var(--text); margin-bottom:10px; }
+.cv-box p { font-size:14px; color:var(--muted); margin-bottom:24px; line-height:1.65; }
 .cv-box .btn { width:100%; justify-content:center; font-size:15px; padding:14px; }
 
 /* ── FOOTER ── */
@@ -307,7 +325,7 @@ footer { background:var(--dark); padding:32px 0; border-top:1px solid rgba(255,2
 .footer-links a { font-size:13px; color:rgba(255,255,255,.36); transition:.2s; }
 .footer-links a:hover { color:rgba(255,255,255,.8); }
 
-/* ── LIGHTBOX ── */
+/* ── LIGHTBOX IMÁGENES ── */
 #lightbox { position:fixed; inset:0; background:rgba(0,0,0,.97); z-index:999; display:none; align-items:center; justify-content:center; padding:20px; }
 #lightbox.open { display:flex; }
 #lightbox img { max-width:90vw; max-height:90vh; object-fit:contain; border-radius:8px; }
@@ -317,6 +335,13 @@ footer { background:var(--dark); padding:32px 0; border-top:1px solid rgba(255,2
 #lb-prev:hover, #lb-next:hover { color:#fff; background:rgba(255,255,255,.14); }
 #lb-prev { left:16px; }
 #lb-next { right:16px; }
+
+/* ── LIGHTBOX VÍDEO ── */
+#vlb { position:fixed; inset:0; background:rgba(0,0,0,.97); z-index:1001; display:none; align-items:center; justify-content:center; padding:20px; }
+#vlb.open { display:flex; }
+#vlb video { max-width:92vw; max-height:90vh; border-radius:10px; outline:none; box-shadow:0 0 60px rgba(0,0,0,.6); }
+#vlb-close { position:fixed; top:18px; right:22px; font-size:30px; color:rgba(255,255,255,.55); cursor:pointer; z-index:1002; background:none; border:none; transition:.2s; line-height:1; }
+#vlb-close:hover { color:#fff; }
 
 /* ── RESPONSIVE ── */
 @media(max-width:1024px) {
@@ -357,12 +382,12 @@ footer { background:var(--dark); padding:32px 0; border-top:1px solid rgba(255,2
   <div class="nav-inner">
     <a href="#hero" class="nav-logo">ADEXE DÍAZ<span class="dot">.</span></a>
     <ul class="nav-links">
+      <li><a href="#sobre">Sobre mí</a></li>
       <li><a href="#diseno">Diseño</a></li>
       <li><a href="#identidad">Identidad</a></li>
       <li><a href="#video">Vídeo</a></li>
       <li><a href="#publifilm">PubliFilm</a></li>
       <li><a href="#web">Web</a></li>
-      <li><a href="#sobre">Sobre mí</a></li>
       <li><a href="#ia">IA</a></li>
       <li><a href="#contacto">Contacto</a></li>
     </ul>
@@ -371,12 +396,12 @@ footer { background:var(--dark); padding:32px 0; border-top:1px solid rgba(255,2
   </div>
 </nav>
 <div class="mob-menu" id="mobMenu">
+  <a href="#sobre"     onclick="toggleMenu()">Sobre mí</a>
   <a href="#diseno"    onclick="toggleMenu()">Diseño Gráfico</a>
   <a href="#identidad" onclick="toggleMenu()">Identidad Corporativa</a>
   <a href="#video"     onclick="toggleMenu()">Producción Audiovisual</a>
   <a href="#publifilm" onclick="toggleMenu()">PubliFilm IA</a>
   <a href="#web"       onclick="toggleMenu()">Desarrollo Web</a>
-  <a href="#sobre"     onclick="toggleMenu()">Sobre mí</a>
   <a href="#ia"        onclick="toggleMenu()">Proyectos IA</a>
   <a href="#contacto"  onclick="toggleMenu()">Contacto</a>
 </div>
@@ -429,6 +454,74 @@ footer { background:var(--dark); padding:32px 0; border-top:1px solid rgba(255,2
   </div>
 </section>
 
+<!-- SOBRE MÍ -->
+<section id="sobre" class="section">
+  <div class="container">
+    <div class="s-head">
+      <div class="section-tag">Trayectoria Profesional</div>
+      <h2 class="section-title">Consultor de <span>Marketing Digital</span></h2>
+    </div>
+    <div class="sobre-grid">
+      <div>
+        <div class="sobre-bio">
+          <p>Soy <strong>Adexe Díaz Gómez</strong>, especialista en <strong>marketing digital en Gran Canaria</strong> con más de 18 años de experiencia ayudando a empresas a crecer en el entorno digital. Mi trayectoria comenzó en el diseño gráfico y la producción audiovisual, dos pilares que siguen siendo la base de todo lo que construyo.</p>
+          <p>A lo largo de mi carrera he trabajado con marcas en <strong>España, Canarias y Centroamérica</strong>, desarrollando estrategias de <strong>SEO en Las Palmas de Gran Canaria</strong>, identidades corporativas, campañas publicitarias y plataformas web optimizadas para la conversión. He gestionado proyectos para el sector farmacéutico, alimentación artesanal, consultoría y producción audiovisual.</p>
+          <p>Desde 2023 integro <strong>Inteligencia Artificial en producción audiovisual y automatización de marketing</strong>, lo que me permite ofrecer resultados de calidad profesional a una fracción del coste tradicional. Soy fundador de <a href="https://digitaldexe.com" rel="me" style="color:var(--orange)">DigitalDexe</a> —consultoría de marketing digital en Gran Canaria— y de <a href="https://publifilmai.com" rel="me" style="color:var(--orange)">PubliFilm AI</a>, plataforma de producción audiovisual con IA.</p>
+          <p>Mi diferencial es la <strong>visión integral</strong>: entiendo el diseño, el SEO, el vídeo y la tecnología como un único sistema orientado a resultados. No soy solo un técnico ni solo un creativo — soy el profesional que conecta las dos partes para que tu negocio crezca de forma coherente y medible.</p>
+        </div>
+        <div class="sobre-kw" aria-label="Especialidades">
+          <span>Marketing Digital Gran Canaria</span>
+          <span>SEO Las Palmas</span>
+          <span>Diseño Gráfico Canarias</span>
+          <span>Producción Audiovisual con IA</span>
+          <span>Automatización de Marketing</span>
+          <span>Identidad Corporativa</span>
+          <span>Desarrollo Web SEO</span>
+          <span>Consultor de Marketing</span>
+          <span>E-commerce Canarias</span>
+          <span>Branding Digital</span>
+        </div>
+      </div>
+      <div class="sobre-aside">
+        <div class="sobre-stats">
+          <div class="sobre-stat"><div class="sobre-stat-n">18+</div><div class="sobre-stat-l">Años de experiencia</div></div>
+          <div class="sobre-stat"><div class="sobre-stat-n">25+</div><div class="sobre-stat-l">Clientes atendidos</div></div>
+          <div class="sobre-stat"><div class="sobre-stat-n">5</div><div class="sobre-stat-l">Países en LATAM</div></div>
+          <div class="sobre-stat"><div class="sobre-stat-n">6</div><div class="sobre-stat-l">Webs en vivo</div></div>
+        </div>
+        <div class="sobre-timeline">
+          <h3>Trayectoria</h3>
+          <div class="tl-item">
+            <div class="tl-year">2006</div>
+            <div class="tl-line"><div class="tl-dot"></div><div class="tl-bar"></div></div>
+            <div class="tl-text">Inicio profesional en <strong>diseño gráfico</strong> y producción audiovisual en Gran Canaria</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-year">2012</div>
+            <div class="tl-line"><div class="tl-dot"></div><div class="tl-bar"></div></div>
+            <div class="tl-text">Expansión al <strong>marketing digital y SEO</strong>. Primeros proyectos de posicionamiento orgánico en Canarias</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-year">2018</div>
+            <div class="tl-line"><div class="tl-dot"></div><div class="tl-bar"></div></div>
+            <div class="tl-text">Proyectos internacionales en <strong>Centroamérica</strong>: sector farmacéutico, corporativo e institucional</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-year">2023</div>
+            <div class="tl-line"><div class="tl-dot"></div><div class="tl-bar"></div></div>
+            <div class="tl-text">Integración de <strong>IA generativa</strong> en producción audiovisual y automatización de procesos</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-year">2024</div>
+            <div class="tl-line"><div class="tl-dot"></div></div>
+            <div class="tl-text">Fundación de <strong>PubliFilm AI</strong> y consolidación de DigitalDexe como consultoría de referencia en Gran Canaria</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- DISEÑO GRÁFICO -->
 <section id="diseno" class="section">
   <div class="container">
@@ -438,18 +531,31 @@ footer { background:var(--dark); padding:32px 0; border-top:1px solid rgba(255,2
       <p class="section-sub">Piezas publicitarias, packaging y maquetación editorial para el sector farmacéutico y sanitario en Centroamérica.</p>
     </div>
     <div class="gallery-grid" id="galleryGrid">
-      <div class="gallery-item" onclick="openLB(0)"><img src="../Cuuriculum/Banner/bifold mockup mbservifull 2.png" alt="Díptico Servifull" loading="lazy"><div class="g-overlay"><div class="g-caption">Díptico Corporativo — Servifull</div></div></div>
-      <div class="gallery-item" onclick="openLB(1)"><img src="../Cuuriculum/Banner/Dermaguard adultos 2024.png" alt="Dermaguard Adultos" loading="lazy"><div class="g-overlay"><div class="g-caption">Campaña — Dermaguard Adultos</div></div></div>
-      <div class="gallery-item" onclick="openLB(2)"><img src="../Cuuriculum/Banner/Dermaguard infantil 2024.png" alt="Dermaguard Infantil" loading="lazy"><div class="g-overlay"><div class="g-caption">Campaña — Dermaguard Infantil</div></div></div>
-      <div class="gallery-item" onclick="openLB(3)"><img src="../Cuuriculum/Banner/Intidiva.png" alt="Intidiva" loading="lazy"><div class="g-overlay"><div class="g-caption">Diseño Publicitario — Intidiva</div></div></div>
-      <div class="gallery-item" onclick="openLB(4)"><img src="../Cuuriculum/Banner/Enquiovit 3.png" alt="Enquiovit" loading="lazy"><div class="g-overlay"><div class="g-caption">Material Promocional — Enquiovit</div></div></div>
-      <div class="gallery-item" onclick="openLB(5)"><img src="../Cuuriculum/Banner/Farma value hospital de especialidades cara B(alta calidad).png" alt="Farma Value Hospital" loading="lazy"><div class="g-overlay"><div class="g-caption">Díptico — Farma Value Hospital</div></div></div>
-      <div class="gallery-item" onclick="openLB(6)"><img src="../Cuuriculum/Banner/Maquetación 1.png" alt="Maquetación 1" loading="lazy"><div class="g-overlay"><div class="g-caption">Maquetación Editorial</div></div></div>
-      <div class="gallery-item" onclick="openLB(7)"><img src="../Cuuriculum/Banner/Maquetación 2.png" alt="Maquetación 2" loading="lazy"><div class="g-overlay"><div class="g-caption">Maquetación Editorial</div></div></div>
-      <div class="gallery-item" onclick="openLB(8)"><img src="../Cuuriculum/Banner/Vitamina e.png" alt="Vitamina E" loading="lazy"><div class="g-overlay"><div class="g-caption">Packaging — Vitamina E</div></div></div>
-      <div class="gallery-item" onclick="openLB(9)"><img src="../Cuuriculum/Banner/Naproxeno-Ibuprofeno.png" alt="Naproxeno" loading="lazy"><div class="g-overlay"><div class="g-caption">Diseño de Producto — Naproxeno</div></div></div>
-      <div class="gallery-item" onclick="openLB(10)"><img src="../Cuuriculum/Banner/after sun.png" alt="After Sun" loading="lazy"><div class="g-overlay"><div class="g-caption">Diseño — After Sun</div></div></div>
-      <div class="gallery-item" onclick="openLB(11)"><img src="../Cuuriculum/Banner/Citrato de calcio-bis.png" alt="Citrato" loading="lazy"><div class="g-overlay"><div class="g-caption">Material Clínico — Citrato de Calcio</div></div></div>
+      <div class="gallery-item" onclick="openLB(0)"><img src="../Cuuriculum/Banner/web/after sun.png" alt="After Sun" loading="lazy"><div class="g-overlay"><div class="g-caption">Diseño — After Sun</div></div></div>
+      <div class="gallery-item" onclick="openLB(1)"><img src="../Cuuriculum/Banner/web/Banner Dermagurd.png" alt="Banner Dermaguard" loading="lazy"><div class="g-overlay"><div class="g-caption">Banner — Dermaguard</div></div></div>
+      <div class="gallery-item" onclick="openLB(2)"><img src="../Cuuriculum/Banner/web/Banner promo tienda blanco.png" alt="Banner Promo Tienda" loading="lazy"><div class="g-overlay"><div class="g-caption">Banner Promo Tienda</div></div></div>
+      <div class="gallery-item" onclick="openLB(3)"><img src="../Cuuriculum/Banner/web/Citrato de calcio-bis.png" alt="Citrato de Calcio" loading="lazy"><div class="g-overlay"><div class="g-caption">Material Clínico — Citrato de Calcio</div></div></div>
+      <div class="gallery-item" onclick="openLB(4)"><img src="../Cuuriculum/Banner/web/Dermaguard adultos 2024.png" alt="Dermaguard Adultos" loading="lazy"><div class="g-overlay"><div class="g-caption">Campaña — Dermaguard Adultos</div></div></div>
+      <div class="gallery-item" onclick="openLB(5)"><img src="../Cuuriculum/Banner/web/Diseño etiqueta vr corta.png" alt="Etiqueta Mansueto" loading="lazy"><div class="g-overlay"><div class="g-caption">Diseño de Etiqueta — Quesería Mansueto</div></div></div>
+      <div class="gallery-item" onclick="openLB(6)"><img src="../Cuuriculum/Banner/web/Enquiovit 3.png" alt="Enquiovit" loading="lazy"><div class="g-overlay"><div class="g-caption">Material Promocional — Enquiovit</div></div></div>
+      <div class="gallery-item" onclick="openLB(7)"><img src="../Cuuriculum/Banner/web/Farma value hospital de especialidades cara B(alta calidad).png" alt="Farma Value Hospital" loading="lazy"><div class="g-overlay"><div class="g-caption">Díptico — Farma Value Hospital</div></div></div>
+      <div class="gallery-item" onclick="openLB(8)"><img src="../Cuuriculum/Banner/web/Intidiva.png" alt="Intidiva" loading="lazy"><div class="g-overlay"><div class="g-caption">Diseño Publicitario — Intidiva</div></div></div>
+      <div class="gallery-item" onclick="openLB(9)"><img src="../Cuuriculum/Banner/web/kids 2.png" alt="Kids" loading="lazy"><div class="g-overlay"><div class="g-caption">Diseño — Kids</div></div></div>
+      <div class="gallery-item" onclick="openLB(10)"><img src="../Cuuriculum/Banner/web/Maquetación 2.png" alt="Maquetación" loading="lazy"><div class="g-overlay"><div class="g-caption">Maquetación Editorial</div></div></div>
+      <div class="gallery-item" onclick="openLB(11)"><img src="../Cuuriculum/Banner/web/Naproxeno-Ibuprofeno.png" alt="Naproxeno" loading="lazy"><div class="g-overlay"><div class="g-caption">Diseño de Producto — Naproxeno</div></div></div>
+      <div class="gallery-item" onclick="openLB(12)"><img src="../Cuuriculum/Banner/web/Tríptico-feria cara exterior.png" alt="Tríptico Feria Exterior" loading="lazy"><div class="g-overlay"><div class="g-caption">Tríptico — Feria (Cara Exterior)</div></div></div>
+    </div>
+
+    <div class="subsec-label">Fotografía de Producto — Quesería Mansueto</div>
+    <div class="foto-grid">
+      <div class="gallery-item" onclick="openLB(13)"><img src="../Cuuriculum/Fotos/table quesos2.png" alt="Mesa de quesos" loading="lazy"><div class="g-overlay"><div class="g-caption">Fotografía — Mesa de Quesos</div></div></div>
+      <div class="gallery-item" onclick="openLB(14)"><img src="../Cuuriculum/Fotos/queso ahumado.png" alt="Queso ahumado" loading="lazy"><div class="g-overlay"><div class="g-caption">Fotografía — Queso Ahumado</div></div></div>
+      <div class="gallery-item" onclick="openLB(15)"><img src="../Cuuriculum/Fotos/silano2.png" alt="Silano" loading="lazy"><div class="g-overlay"><div class="g-caption">Fotografía — Silano</div></div></div>
+      <div class="gallery-item" onclick="openLB(16)"><img src="../Cuuriculum/Fotos/semicurado pimenton2.png" alt="Semicurado Pimentón" loading="lazy"><div class="g-overlay"><div class="g-caption">Fotografía — Semicurado al Pimentón</div></div></div>
+      <div class="gallery-item" onclick="openLB(17)"><img src="../Cuuriculum/Fotos/semicurado pimenton3.png" alt="Semicurado Pimentón" loading="lazy"><div class="g-overlay"><div class="g-caption">Fotografía — Semicurado al Pimentón</div></div></div>
+      <div class="gallery-item" onclick="openLB(18)"><img src="../Cuuriculum/Fotos/semicurado pimenton4.png" alt="Semicurado Pimentón" loading="lazy"><div class="g-overlay"><div class="g-caption">Fotografía — Semicurado al Pimentón</div></div></div>
+      <div class="gallery-item" onclick="openLB(19)"><img src="../Cuuriculum/Fotos/semicurado pimienta negra.png" alt="Semicurado Pimienta Negra" loading="lazy"><div class="g-overlay"><div class="g-caption">Fotografía — Semicurado Pimienta Negra</div></div></div>
+      <div class="gallery-item" onclick="openLB(20)"><img src="../Cuuriculum/Fotos/semicurado pimienta negra3.png" alt="Semicurado Pimienta Negra" loading="lazy"><div class="g-overlay"><div class="g-caption">Fotografía — Semicurado Pimienta Negra</div></div></div>
     </div>
   </div>
 </section>
@@ -524,13 +630,6 @@ footer { background:var(--dark); padding:32px 0; border-top:1px solid rgba(255,2
       </div>
       <div class="video-card">
         <div class="video-wrap" onclick="playVideo(this)">
-          <video src="../Cuuriculum/Videos/PubliFilm/nervio-vital.mp4" preload="metadata" muted></video>
-          <div class="video-play-btn"><svg viewBox="0 0 52 52" fill="none"><circle cx="26" cy="26" r="26" fill="rgba(255,255,255,0.15)" style="transition:.2s"/><path d="M21 17l16 9-16 9V17z" fill="white"/></svg></div>
-        </div>
-        <div class="video-info"><div class="video-title">Spot Publicitario — Nervio Vital</div><div class="video-client">PubliFilm AI · Producción con IA</div></div>
-      </div>
-      <div class="video-card">
-        <div class="video-wrap" onclick="playVideo(this)">
           <video src="../Cuuriculum/Videos/Grupo Latamco-video corporativo.mp4" preload="metadata" muted></video>
           <div class="video-play-btn"><svg viewBox="0 0 52 52" fill="none"><circle cx="26" cy="26" r="26" fill="rgba(255,255,255,0.15)" style="transition:.2s"/><path d="M21 17l16 9-16 9V17z" fill="white"/></svg></div>
         </div>
@@ -538,10 +637,45 @@ footer { background:var(--dark); padding:32px 0; border-top:1px solid rgba(255,2
       </div>
       <div class="video-card">
         <div class="video-wrap" onclick="playVideo(this)">
-          <video src="../Cuuriculum/Videos/Video tarjeta farma value corregido.mp4" preload="metadata" muted></video>
+          <video src="../Cuuriculum/Videos/Optica Jade.webm" preload="metadata" muted></video>
           <div class="video-play-btn"><svg viewBox="0 0 52 52" fill="none"><circle cx="26" cy="26" r="26" fill="rgba(255,255,255,0.15)" style="transition:.2s"/><path d="M21 17l16 9-16 9V17z" fill="white"/></svg></div>
         </div>
-        <div class="video-info"><div class="video-title">Vídeo Institucional — Farma Value</div><div class="video-client">Farma Value · El Salvador</div></div>
+        <div class="video-info"><div class="video-title">Spot Publicitario — Óptica Jade</div><div class="video-client">Óptica Jade · Gran Canaria</div></div>
+      </div>
+      <div class="video-card">
+        <div class="video-wrap" onclick="playVideo(this)">
+          <video src="../Cuuriculum/Videos/Laboratorios Analiza.mp4" preload="metadata" muted></video>
+          <div class="video-play-btn"><svg viewBox="0 0 52 52" fill="none"><circle cx="26" cy="26" r="26" fill="rgba(255,255,255,0.15)" style="transition:.2s"/><path d="M21 17l16 9-16 9V17z" fill="white"/></svg></div>
+        </div>
+        <div class="video-info"><div class="video-title">Spot — Laboratorios Analiza</div><div class="video-client">Laboratorios Analiza · Centroamérica</div></div>
+      </div>
+      <div class="video-card">
+        <div class="video-wrap" onclick="playVideo(this)">
+          <video src="../Cuuriculum/Videos/Anuncio Burrata mansueto.mp4" preload="metadata" muted></video>
+          <div class="video-play-btn"><svg viewBox="0 0 52 52" fill="none"><circle cx="26" cy="26" r="26" fill="rgba(255,255,255,0.15)" style="transition:.2s"/><path d="M21 17l16 9-16 9V17z" fill="white"/></svg></div>
+        </div>
+        <div class="video-info"><div class="video-title">Anuncio Burrata Mansueto</div><div class="video-client">Quesería Mansueto · Gran Canaria</div></div>
+      </div>
+      <div class="video-card">
+        <div class="video-wrap" onclick="playVideo(this)">
+          <video src="../Cuuriculum/Videos/Spot Promo corazon Burrata SPARTV.mp4" preload="metadata" muted></video>
+          <div class="video-play-btn"><svg viewBox="0 0 52 52" fill="none"><circle cx="26" cy="26" r="26" fill="rgba(255,255,255,0.15)" style="transition:.2s"/><path d="M21 17l16 9-16 9V17z" fill="white"/></svg></div>
+        </div>
+        <div class="video-info"><div class="video-title">Spot Promo — Corazón de Burrata</div><div class="video-client">Quesería Mansueto · Spar TV</div></div>
+      </div>
+      <div class="video-card">
+        <div class="video-wrap" onclick="playVideo(this)">
+          <video src="../Cuuriculum/Videos/Mozzarella fresca.mp4" preload="metadata" muted></video>
+          <div class="video-play-btn"><svg viewBox="0 0 52 52" fill="none"><circle cx="26" cy="26" r="26" fill="rgba(255,255,255,0.15)" style="transition:.2s"/><path d="M21 17l16 9-16 9V17z" fill="white"/></svg></div>
+        </div>
+        <div class="video-info"><div class="video-title">Mozzarella Fresca</div><div class="video-client">Quesería Mansueto · Gran Canaria</div></div>
+      </div>
+      <div class="video-card">
+        <div class="video-wrap" onclick="playVideo(this)">
+          <video src="../Cuuriculum/Videos/Enquiovit.mp4" preload="metadata" muted></video>
+          <div class="video-play-btn"><svg viewBox="0 0 52 52" fill="none"><circle cx="26" cy="26" r="26" fill="rgba(255,255,255,0.15)" style="transition:.2s"/><path d="M21 17l16 9-16 9V17z" fill="white"/></svg></div>
+        </div>
+        <div class="video-info"><div class="video-title">Spot Publicitario — Enquiovit</div><div class="video-client">Adiuvo Pharma · Centroamérica</div></div>
       </div>
     </div>
   </div>
@@ -594,7 +728,7 @@ footer { background:var(--dark); padding:32px 0; border-top:1px solid rgba(255,2
       </div>
       <div class="yt-video-card">
         <div class="yt-embed-wrap" onclick="playVideo(this)">
-          <video src="../Cuuriculum/Videos/Entidiva.mp4" preload="metadata" muted></video>
+          <video src="../Cuuriculum/Videos/PubliFilm/enquiovit-publifilm.mp4" preload="metadata" muted></video>
           <div class="video-play-btn"><svg viewBox="0 0 52 52" fill="none"><circle cx="26" cy="26" r="26" fill="rgba(255,255,255,0.15)" style="transition:.2s"/><path d="M21 17l16 9-16 9V17z" fill="white"/></svg></div>
         </div>
         <div class="yt-video-info"><div class="yt-video-title">Spot Publicitario — Enquiovit</div><div class="yt-video-sub">Adiuvo Pharma · Producción con IA</div></div>
@@ -631,73 +765,6 @@ footer { background:var(--dark); padding:32px 0; border-top:1px solid rgba(255,2
 </section>
 
 <!-- SOBRE MÍ -->
-<section id="sobre" class="section">
-  <div class="container">
-    <div class="s-head">
-      <div class="section-tag">Trayectoria Profesional</div>
-      <h2 class="section-title">Consultor de <span>Marketing Digital</span> en Gran Canaria</h2>
-    </div>
-    <div class="sobre-grid">
-      <div>
-        <div class="sobre-bio">
-          <p>Soy <strong>Adexe Díaz Gómez</strong>, especialista en <strong>marketing digital en Gran Canaria</strong> con más de 18 años de experiencia ayudando a empresas a crecer en el entorno digital. Mi trayectoria comenzó en el diseño gráfico y la producción audiovisual, dos pilares que siguen siendo la base de todo lo que construyo.</p>
-          <p>A lo largo de mi carrera he trabajado con marcas en <strong>España, Canarias y Centroamérica</strong>, desarrollando estrategias de <strong>SEO en Las Palmas de Gran Canaria</strong>, identidades corporativas, campañas publicitarias y plataformas web optimizadas para la conversión. He gestionado proyectos para el sector farmacéutico, alimentación artesanal, consultoría y producción audiovisual.</p>
-          <p>Desde 2023 integro <strong>Inteligencia Artificial en producción audiovisual y automatización de marketing</strong>, lo que me permite ofrecer resultados de calidad profesional a una fracción del coste tradicional. Soy fundador de <a href="https://digitaldexe.com" rel="me" style="color:var(--orange)">DigitalDexe</a> —consultoría de marketing digital en Gran Canaria— y de <a href="https://publifilmai.com" rel="me" style="color:var(--orange)">PubliFilm AI</a>, plataforma de producción audiovisual con IA.</p>
-          <p>Mi diferencial es la <strong>visión integral</strong>: entiendo el diseño, el SEO, el vídeo y la tecnología como un único sistema orientado a resultados. No soy solo un técnico ni solo un creativo — soy el profesional que conecta las dos partes para que tu negocio crezca de forma coherente y medible.</p>
-        </div>
-        <div class="sobre-kw" aria-label="Especialidades">
-          <span>Marketing Digital Gran Canaria</span>
-          <span>SEO Las Palmas</span>
-          <span>Diseño Gráfico Canarias</span>
-          <span>Producción Audiovisual con IA</span>
-          <span>Automatización de Marketing</span>
-          <span>Identidad Corporativa</span>
-          <span>Desarrollo Web SEO</span>
-          <span>Consultor de Marketing</span>
-          <span>E-commerce Canarias</span>
-          <span>Branding Digital</span>
-        </div>
-      </div>
-      <div class="sobre-aside">
-        <div class="sobre-stats">
-          <div class="sobre-stat"><div class="sobre-stat-n">18+</div><div class="sobre-stat-l">Años de experiencia</div></div>
-          <div class="sobre-stat"><div class="sobre-stat-n">25+</div><div class="sobre-stat-l">Clientes atendidos</div></div>
-          <div class="sobre-stat"><div class="sobre-stat-n">5</div><div class="sobre-stat-l">Países en LATAM</div></div>
-          <div class="sobre-stat"><div class="sobre-stat-n">6</div><div class="sobre-stat-l">Webs en vivo</div></div>
-        </div>
-        <div class="sobre-timeline">
-          <h3>Trayectoria</h3>
-          <div class="tl-item">
-            <div class="tl-year">2006</div>
-            <div class="tl-line"><div class="tl-dot"></div><div class="tl-bar"></div></div>
-            <div class="tl-text">Inicio profesional en <strong>diseño gráfico</strong> y producción audiovisual en Gran Canaria</div>
-          </div>
-          <div class="tl-item">
-            <div class="tl-year">2012</div>
-            <div class="tl-line"><div class="tl-dot"></div><div class="tl-bar"></div></div>
-            <div class="tl-text">Expansión al <strong>marketing digital y SEO</strong>. Primeros proyectos de posicionamiento orgánico en Canarias</div>
-          </div>
-          <div class="tl-item">
-            <div class="tl-year">2018</div>
-            <div class="tl-line"><div class="tl-dot"></div><div class="tl-bar"></div></div>
-            <div class="tl-text">Proyectos internacionales en <strong>Centroamérica</strong>: sector farmacéutico, corporativo e institucional</div>
-          </div>
-          <div class="tl-item">
-            <div class="tl-year">2023</div>
-            <div class="tl-line"><div class="tl-dot"></div><div class="tl-bar"></div></div>
-            <div class="tl-text">Integración de <strong>IA generativa</strong> en producción audiovisual y automatización de procesos</div>
-          </div>
-          <div class="tl-item">
-            <div class="tl-year">2024</div>
-            <div class="tl-line"><div class="tl-dot"></div></div>
-            <div class="tl-text">Fundación de <strong>PubliFilm AI</strong> y consolidación de DigitalDexe como consultoría de referencia en Gran Canaria</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- PROYECTOS IA -->
 <section id="ia" class="section">
   <div class="container">
@@ -755,12 +822,18 @@ footer { background:var(--dark); padding:32px 0; border-top:1px solid rgba(255,2
   </div>
 </footer>
 
-<!-- LIGHTBOX -->
+<!-- LIGHTBOX IMÁGENES -->
 <div id="lightbox">
   <button id="lb-close" onclick="closeLB()">✕</button>
   <button id="lb-prev" onclick="changeLB(-1)">‹</button>
   <img id="lb-img" src="" alt="">
   <button id="lb-next" onclick="changeLB(1)">›</button>
+</div>
+
+<!-- LIGHTBOX VÍDEO -->
+<div id="vlb">
+  <button id="vlb-close" onclick="closeVLB()">✕</button>
+  <video id="vlb-vid" controls playsinline></video>
 </div>
 
 <!-- GSAP -->
@@ -845,19 +918,12 @@ gsap.utils.toArray('.s-head').forEach(head => {
   });
 });
 
-/* ── GALLERY PARALLAX (columns move at different speeds) ── */
+/* ── GALLERY ENTRANCE ── */
 gsap.utils.toArray('.gallery-item').forEach((item, i) => {
-  const col = i % 3;
-  const ydist = col === 0 ? -55 : col === 1 ? -30 : -12;
-
   gsap.from(item, {
     y: 60, opacity: 0, scale: 0.92,
     duration: 0.9, ease: 'power3.out',
     scrollTrigger: { trigger: item, start: 'top 92%', toggleActions: 'play none none none' }
-  });
-  gsap.to(item, {
-    y: ydist, ease: 'none',
-    scrollTrigger: { trigger: '#diseno', start: 'top bottom', end: 'bottom top', scrub: 1.8 }
   });
 });
 
@@ -962,37 +1028,55 @@ gsap.from('footer', {
   scrollTrigger: { trigger: 'footer', start: 'top 95%', toggleActions: 'play none none none' }
 });
 
-/* ── VIDEO PLAY ── */
+/* ── VIDEO LIGHTBOX ── */
+const vlb    = document.getElementById('vlb');
+const vlbVid = document.getElementById('vlb-vid');
+
 function playVideo(wrap) {
-  const vid = wrap.querySelector('video');
-  const btn = wrap.querySelector('.video-play-btn');
-  if (vid.paused) {
-    document.querySelectorAll('.video-wrap video, .yt-embed-wrap video').forEach(v => {
-      if (v !== vid) {
-        v.pause();
-        const b = v.closest('.video-wrap, .yt-embed-wrap').querySelector('.video-play-btn');
-        if (b) b.style.display = 'flex';
-      }
-    });
-    vid.muted = false; vid.play(); btn.style.display = 'none';
-    vid.addEventListener('ended', () => { btn.style.display = 'flex'; }, { once:true });
-  } else { vid.pause(); btn.style.display = 'flex'; }
+  const src = wrap.querySelector('video').src;
+  vlbVid.src = src;
+  vlbVid.currentTime = 0;
+  vlbVid.muted = false;
+  vlb.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  vlbVid.play();
 }
+
+function closeVLB() {
+  vlbVid.pause();
+  vlbVid.src = '';
+  vlb.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+vlb.addEventListener('click', e => { if (e.target === vlb) closeVLB(); });
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { closeVLB(); closeLB(); }
+});
 
 /* ── LIGHTBOX ── */
 const IMGS = [
-  { src:'../Cuuriculum/Banner/bifold mockup mbservifull 2.png',                                 alt:'Díptico Corporativo — Servifull' },
-  { src:'../Cuuriculum/Banner/Dermaguard adultos 2024.png',                                     alt:'Campaña — Dermaguard Adultos' },
-  { src:'../Cuuriculum/Banner/Dermaguard infantil 2024.png',                                    alt:'Campaña — Dermaguard Infantil' },
-  { src:'../Cuuriculum/Banner/Intidiva.png',                                                    alt:'Diseño — Intidiva' },
-  { src:'../Cuuriculum/Banner/Enquiovit 3.png',                                                 alt:'Enquiovit' },
-  { src:'../Cuuriculum/Banner/Farma value hospital de especialidades cara B(alta calidad).png', alt:'Farma Value Hospital' },
-  { src:'../Cuuriculum/Banner/Maquetación 1.png',                                               alt:'Maquetación Editorial' },
-  { src:'../Cuuriculum/Banner/Maquetación 2.png',                                               alt:'Maquetación Editorial' },
-  { src:'../Cuuriculum/Banner/Vitamina e.png',                                                  alt:'Vitamina E' },
-  { src:'../Cuuriculum/Banner/Naproxeno-Ibuprofeno.png',                                       alt:'Naproxeno / Ibuprofeno' },
-  { src:'../Cuuriculum/Banner/after sun.png',                                                   alt:'After Sun' },
-  { src:'../Cuuriculum/Banner/Citrato de calcio-bis.png',                                       alt:'Citrato de Calcio' },
+  { src:'../Cuuriculum/Banner/web/after sun.png',                                                   alt:'Diseño — After Sun' },
+  { src:'../Cuuriculum/Banner/web/Banner Dermagurd.png',                                            alt:'Banner — Dermaguard' },
+  { src:'../Cuuriculum/Banner/web/Banner promo tienda blanco.png',                                  alt:'Banner Promo Tienda' },
+  { src:'../Cuuriculum/Banner/web/Citrato de calcio-bis.png',                                       alt:'Material Clínico — Citrato de Calcio' },
+  { src:'../Cuuriculum/Banner/web/Dermaguard adultos 2024.png',                                     alt:'Campaña — Dermaguard Adultos' },
+  { src:'../Cuuriculum/Banner/web/Diseño etiqueta vr corta.png',                                    alt:'Diseño de Etiqueta — Mansueto' },
+  { src:'../Cuuriculum/Banner/web/Enquiovit 3.png',                                                 alt:'Material Promocional — Enquiovit' },
+  { src:'../Cuuriculum/Banner/web/Farma value hospital de especialidades cara B(alta calidad).png', alt:'Farma Value Hospital' },
+  { src:'../Cuuriculum/Banner/web/Intidiva.png',                                                    alt:'Diseño Publicitario — Intidiva' },
+  { src:'../Cuuriculum/Banner/web/kids 2.png',                                                      alt:'Diseño — Kids' },
+  { src:'../Cuuriculum/Banner/web/Maquetación 2.png',                                               alt:'Maquetación Editorial' },
+  { src:'../Cuuriculum/Banner/web/Naproxeno-Ibuprofeno.png',                                       alt:'Diseño de Producto — Naproxeno' },
+  { src:'../Cuuriculum/Banner/web/Tríptico-feria cara exterior.png',                                alt:'Tríptico Feria — Cara Exterior' },
+  { src:'../Cuuriculum/Fotos/table quesos2.png',                                                    alt:'Fotografía — Mesa de Quesos' },
+  { src:'../Cuuriculum/Fotos/queso ahumado.png',                                                    alt:'Fotografía — Queso Ahumado' },
+  { src:'../Cuuriculum/Fotos/silano2.png',                                                          alt:'Fotografía — Silano' },
+  { src:'../Cuuriculum/Fotos/semicurado pimenton2.png',                                             alt:'Fotografía — Semicurado al Pimentón' },
+  { src:'../Cuuriculum/Fotos/semicurado pimenton3.png',                                             alt:'Fotografía — Semicurado al Pimentón' },
+  { src:'../Cuuriculum/Fotos/semicurado pimenton4.png',                                             alt:'Fotografía — Semicurado al Pimentón' },
+  { src:'../Cuuriculum/Fotos/semicurado pimienta negra.png',                                        alt:'Fotografía — Semicurado Pimienta Negra' },
+  { src:'../Cuuriculum/Fotos/semicurado pimienta negra3.png',                                       alt:'Fotografía — Semicurado Pimienta Negra' },
 ];
 let cur = 0;
 const lb = document.getElementById('lightbox');
